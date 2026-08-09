@@ -1,0 +1,2186 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#07182b" />
+  <meta name="description" content="Celebração de 15 anos — informações do evento, lista de presentes e PIX." />
+  <title>15 Anos | Uma Noite Inesquecível</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap"
+    rel="stylesheet" />
+  <style>
+    :root {
+      --navy-950: #03101e;
+      --navy-900: #07182b;
+      --navy-800: #0a223c;
+      --navy-700: #113355;
+      --silver-100: #f5f7fa;
+      --silver-200: #dfe5ec;
+      --silver-300: #c6ced8;
+      --silver-400: #9faab8;
+      --white: #ffffff;
+      --shadow: 0 24px 80px rgba(0, 0, 0, 0.28);
+      --radius: 24px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      min-height: 100vh;
+      overflow-x: hidden;
+      color: var(--silver-100);
+      background:
+        radial-gradient(circle at 15% 10%, rgba(191, 204, 220, 0.09), transparent 28%),
+        radial-gradient(circle at 90% 20%, rgba(86, 118, 154, 0.18), transparent 34%),
+        linear-gradient(160deg, var(--navy-950) 0%, var(--navy-900) 45%, #061426 100%);
+      font-family: "Inter", sans-serif;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.25;
+      background-image:
+        linear-gradient(rgba(255, 255, 255, .016) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, .016) 1px, transparent 1px);
+      background-size: 36px 36px;
+      mask-image: linear-gradient(to bottom, black, transparent 78%);
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    button {
+      font: inherit;
+    }
+
+    .container {
+      width: min(1120px, calc(100% - 40px));
+      margin: 0 auto;
+    }
+
+    .topbar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 30;
+      padding: 18px 0;
+      transition: 0.25s ease;
+    }
+
+    .topbar.scrolled {
+      background: rgba(3, 16, 30, 0.82);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid rgba(255, 255, 255, .08);
+    }
+
+    .nav {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .brand-mark {
+      width: 42px;
+      height: 42px;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      border: 1px solid rgba(255, 255, 255, .35);
+      box-shadow: inset 0 0 0 4px rgba(255, 255, 255, .04);
+      font-family: "Cormorant Garamond", serif;
+      font-size: 22px;
+      font-weight: 700;
+    }
+
+    .brand-text {
+      font-family: "Cormorant Garamond", serif;
+      font-size: 20px;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+
+    .nav-links {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 26px;
+      font-size: 13px;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: var(--silver-300);
+    }
+
+    .nav-links a:hover {
+      color: var(--white);
+    }
+
+    .hero {
+      position: relative;
+      min-height: 100svh;
+      display: grid;
+      place-items: center;
+      text-align: center;
+      padding: 130px 0 90px;
+      isolation: isolate;
+    }
+
+    .hero::after {
+      content: "";
+      position: absolute;
+      inset: auto 0 0;
+      height: 180px;
+      background: linear-gradient(to bottom, transparent, rgba(3, 16, 30, .95));
+      z-index: -1;
+    }
+
+    .ornament {
+      display: inline-flex;
+      align-items: center;
+      gap: 14px;
+      color: var(--silver-300);
+      text-transform: uppercase;
+      letter-spacing: .3em;
+      font-size: 11px;
+      margin-bottom: 26px;
+    }
+
+    .ornament::before,
+    .ornament::after {
+      content: "";
+      width: 72px;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--silver-300));
+    }
+
+    .ornament::after {
+      transform: rotate(180deg);
+    }
+
+    .hero h1 {
+      font-family: "Cormorant Garamond", serif;
+      font-weight: 500;
+      font-size: clamp(74px, 13vw, 168px);
+      line-height: .78;
+      letter-spacing: -.055em;
+      text-shadow: 0 18px 48px rgba(0, 0, 0, .35);
+    }
+
+    .hero h1 span {
+      display: block;
+      margin-top: 20px;
+      font-size: clamp(34px, 6vw, 76px);
+      letter-spacing: .03em;
+      color: var(--silver-200);
+    }
+
+    .hero-subtitle {
+      max-width: 680px;
+      margin: 34px auto 0;
+      color: var(--silver-300);
+      font-size: clamp(16px, 2vw, 20px);
+      line-height: 1.7;
+      font-weight: 300;
+    }
+
+    .hero-actions {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 14px;
+      margin-top: 38px;
+    }
+
+    .btn {
+      min-height: 52px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 0 24px;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, .18);
+      cursor: pointer;
+      transition: transform .2s ease, background .2s ease, border-color .2s ease;
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+    }
+
+    .btn-primary {
+      color: var(--navy-950);
+      background: linear-gradient(135deg, var(--white), var(--silver-300));
+      border-color: transparent;
+      font-weight: 600;
+    }
+
+    .btn-secondary {
+      color: var(--silver-100);
+      background: rgba(255, 255, 255, .05);
+      backdrop-filter: blur(12px);
+    }
+
+    .scroll-hint {
+      position: absolute;
+      bottom: 34px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: grid;
+      justify-items: center;
+      gap: 8px;
+      color: var(--silver-400);
+      font-size: 10px;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+    }
+
+    .mouse {
+      width: 22px;
+      height: 34px;
+      border: 1px solid rgba(255, 255, 255, .3);
+      border-radius: 20px;
+      padding-top: 7px;
+      display: flex;
+      justify-content: center;
+    }
+
+    .mouse::before {
+      content: "";
+      width: 3px;
+      height: 7px;
+      background: var(--silver-300);
+      border-radius: 999px;
+      animation: scroll 1.8s infinite;
+    }
+
+    @keyframes scroll {
+      0% {
+        transform: translateY(0);
+        opacity: 0;
+      }
+
+      30% {
+        opacity: 1;
+      }
+
+      100% {
+        transform: translateY(10px);
+        opacity: 0;
+      }
+    }
+
+    section {
+      padding: 96px 0;
+      position: relative;
+    }
+
+    .section-heading {
+      max-width: 700px;
+      margin-bottom: 42px;
+    }
+
+    .eyebrow {
+      display: block;
+      margin-bottom: 12px;
+      color: var(--silver-400);
+      text-transform: uppercase;
+      letter-spacing: .22em;
+      font-size: 11px;
+    }
+
+    .section-heading h2 {
+      font-family: "Cormorant Garamond", serif;
+      font-size: clamp(42px, 6vw, 72px);
+      line-height: 1;
+      font-weight: 500;
+    }
+
+    .section-heading p {
+      margin-top: 18px;
+      color: var(--silver-300);
+      line-height: 1.8;
+      font-weight: 300;
+    }
+
+    .event-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+    }
+
+    .glass-card {
+      position: relative;
+      overflow: hidden;
+      border-radius: var(--radius);
+      border: 1px solid rgba(255, 255, 255, .10);
+      background: linear-gradient(150deg, rgba(255, 255, 255, .085), rgba(255, 255, 255, .025));
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(18px);
+    }
+
+    .info-card {
+      padding: 30px;
+      min-height: 220px;
+    }
+
+    .info-card::after {
+      content: "";
+      position: absolute;
+      width: 140px;
+      height: 140px;
+      border-radius: 50%;
+      right: -60px;
+      top: -60px;
+      background: rgba(255, 255, 255, .06);
+      filter: blur(2px);
+    }
+
+    .info-icon {
+      width: 48px;
+      height: 48px;
+      display: grid;
+      place-items: center;
+      border-radius: 15px;
+      background: rgba(255, 255, 255, .08);
+      border: 1px solid rgba(255, 255, 255, .12);
+      font-size: 22px;
+      margin-bottom: 28px;
+    }
+
+    .info-card small {
+      display: block;
+      color: var(--silver-400);
+      text-transform: uppercase;
+      letter-spacing: .14em;
+      margin-bottom: 8px;
+      font-size: 10px;
+    }
+
+    .info-card h3 {
+      font-family: "Cormorant Garamond", serif;
+      font-size: 29px;
+      font-weight: 600;
+    }
+
+    .info-card p {
+      margin-top: 8px;
+      color: var(--silver-300);
+      line-height: 1.6;
+      font-size: 14px;
+    }
+
+    .map-link {
+      display: inline-flex;
+      margin-top: 18px;
+      color: var(--white);
+      font-size: 13px;
+      border-bottom: 1px solid rgba(255, 255, 255, .4);
+      padding-bottom: 3px;
+    }
+
+    .gift-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+    }
+
+    .gift-card {
+      padding: 28px;
+      min-height: 260px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: transform .25s ease, border-color .25s ease;
+    }
+
+    .gift-card:hover {
+      transform: translateY(-5px);
+      border-color: rgba(255, 255, 255, .28);
+    }
+
+    .gift-number {
+      font-family: "Cormorant Garamond", serif;
+      font-size: 54px;
+      color: rgba(255, 255, 255, .18);
+      line-height: 1;
+    }
+
+    .gift-card h3 {
+      font-family: "Cormorant Garamond", serif;
+      font-size: 30px;
+      margin: 20px 0 8px;
+    }
+
+    .gift-card p {
+      color: var(--silver-300);
+      font-size: 14px;
+      line-height: 1.65;
+    }
+
+    .gift-loading,
+    .gift-empty,
+    .gift-error {
+      grid-column: 1 / -1;
+      padding: 30px;
+      border-radius: var(--radius);
+      border: 1px solid rgba(255, 255, 255, .10);
+      background: rgba(255, 255, 255, .035);
+      color: var(--silver-300);
+      text-align: center;
+      line-height: 1.6;
+    }
+
+    .gift-link {
+      display: inline-flex;
+      align-items: center;
+      width: fit-content;
+      margin-top: 22px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, .14);
+      background: rgba(255, 255, 255, .07);
+      color: var(--silver-100);
+      font-size: 11px;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      transition: background .25s ease, border-color .25s ease, transform .25s ease;
+    }
+
+    .gift-link:hover {
+      background: rgba(255, 255, 255, .12);
+      border-color: rgba(255, 255, 255, .28);
+      transform: translateY(-1px);
+    }
+
+    .gift-tag {
+      width: fit-content;
+      margin-top: 22px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, .07);
+      color: var(--silver-200);
+      font-size: 11px;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+
+    .pix-wrap {
+      display: grid;
+      grid-template-columns: 1.15fr .85fr;
+      gap: 24px;
+      align-items: stretch;
+    }
+
+    .pix-content {
+      padding: clamp(30px, 5vw, 56px);
+    }
+
+    .pix-content h2 {
+      font-family: "Cormorant Garamond", serif;
+      font-size: clamp(42px, 6vw, 68px);
+      font-weight: 500;
+      line-height: 1;
+    }
+
+    .pix-content p {
+      max-width: 620px;
+      margin-top: 18px;
+      color: var(--silver-300);
+      line-height: 1.8;
+    }
+
+    .pix-box {
+      margin-top: 30px;
+      padding: 18px;
+      border: 1px solid rgba(255, 255, 255, .12);
+      border-radius: 18px;
+      background: rgba(0, 0, 0, .15);
+    }
+
+    .pix-box small {
+      display: block;
+      margin-bottom: 8px;
+      color: var(--silver-400);
+      text-transform: uppercase;
+      letter-spacing: .15em;
+      font-size: 10px;
+    }
+
+    .pix-key-row {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .pix-key {
+      overflow-wrap: anywhere;
+      font-size: 16px;
+      font-weight: 500;
+      color: var(--white);
+    }
+
+    .copy-btn {
+      flex: 0 0 auto;
+      padding: 11px 14px;
+      border: 0;
+      border-radius: 12px;
+      color: var(--navy-950);
+      background: var(--silver-200);
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .qr-card {
+      padding: 32px;
+      display: grid;
+      place-items: center;
+      text-align: center;
+    }
+
+    .qr-placeholder {
+      width: min(260px, 100%);
+      aspect-ratio: 1;
+      display: grid;
+      place-items: center;
+      padding: 20px;
+      border-radius: 24px;
+      background:
+        linear-gradient(90deg, #fff 10px, transparent 10px) 0 0/34px 34px,
+        linear-gradient(#fff 10px, transparent 10px) 0 0/34px 34px,
+        #dbe2e9;
+      color: var(--navy-900);
+      border: 10px solid var(--white);
+      box-shadow: 0 24px 50px rgba(0, 0, 0, .25);
+      font-weight: 700;
+      line-height: 1.4;
+    }
+
+    .qr-card p {
+      margin-top: 20px;
+      color: var(--silver-300);
+      font-size: 13px;
+    }
+
+    .closing {
+      text-align: center;
+      padding: 120px 0 100px;
+    }
+
+    .closing h2 {
+      font-family: "Cormorant Garamond", serif;
+      font-size: clamp(48px, 8vw, 90px);
+      font-weight: 500;
+    }
+
+    .closing p {
+      margin: 18px auto 0;
+      max-width: 620px;
+      color: var(--silver-300);
+      line-height: 1.8;
+    }
+
+    footer {
+      padding: 24px 0 34px;
+      border-top: 1px solid rgba(255, 255, 255, .08);
+      text-align: center;
+      color: var(--silver-400);
+      font-size: 12px;
+    }
+
+    .toast {
+      position: fixed;
+      left: 50%;
+      bottom: 28px;
+      z-index: 50;
+      transform: translate(-50%, 20px);
+      opacity: 0;
+      pointer-events: none;
+      padding: 12px 18px;
+      border-radius: 999px;
+      color: var(--navy-950);
+      background: var(--silver-100);
+      font-weight: 600;
+      box-shadow: var(--shadow);
+      transition: .25s ease;
+    }
+
+    .toast.show {
+      opacity: 1;
+      transform: translate(-50%, 0);
+    }
+
+    @media (max-width: 860px) {
+
+      .event-grid,
+      .gift-grid,
+      .pix-wrap {
+        grid-template-columns: 1fr;
+      }
+
+      .scroll-hint {
+        display: none;
+      }
+
+      .hero {
+        min-height: 860px;
+      }
+    }
+
+    @media (max-width: 560px) {
+      .container {
+        width: min(100% - 24px, 1120px);
+      }
+
+      .topbar {
+        padding: 12px 0;
+      }
+
+      .nav-links {
+        gap: 18px;
+        font-size: 11px;
+      }
+
+      .brand-text {
+        font-size: 16px;
+      }
+
+      .hero {
+        min-height: 780px;
+        padding-top: 112px;
+      }
+
+      .ornament::before,
+      .ornament::after {
+        width: 34px;
+      }
+
+      .hero-actions {
+        flex-direction: column;
+      }
+
+      .btn {
+        width: 100%;
+      }
+
+      section {
+        padding: 72px 0;
+      }
+
+      .info-card,
+      .gift-card {
+        min-height: auto;
+      }
+
+      .pix-key-row {
+        align-items: stretch;
+        flex-direction: column;
+      }
+
+      .copy-btn {
+        width: 100%;
+      }
+    }
+
+
+
+    .birthday-editorial {
+      position: relative;
+      overflow: hidden;
+      text-align: center;
+      padding: 118px 0 126px;
+      isolation: isolate;
+    }
+
+    .birthday-editorial::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: -2;
+      background:
+        radial-gradient(circle at 50% 25%, rgba(255, 255, 255, .07), transparent 28%),
+        radial-gradient(circle at 15% 70%, rgba(159, 170, 184, .08), transparent 26%);
+    }
+
+    .birthday-editorial::after {
+      content: "AC";
+      position: absolute;
+      left: 50%;
+      bottom: -88px;
+      z-index: -1;
+      transform: translateX(-50%);
+      font-family: "Cormorant Garamond", serif;
+      font-size: clamp(190px, 30vw, 420px);
+      font-weight: 600;
+      line-height: .75;
+      letter-spacing: -.08em;
+      color: rgba(255, 255, 255, .018);
+      pointer-events: none;
+    }
+
+    .birthday-editorial .section-heading {
+      max-width: 760px;
+      margin: 0 auto 54px;
+    }
+
+    .birthday-editorial .section-heading h2 {
+      font-size: clamp(48px, 7vw, 82px);
+      line-height: .95;
+    }
+
+    .birthday-editorial .section-heading p {
+      max-width: 640px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .birthday-portrait {
+      width: min(380px, 82vw);
+      aspect-ratio: 4 / 5;
+      margin: 0 auto 56px;
+      padding: 10px;
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, .16);
+      border-radius: 190px 190px 28px 28px;
+      background: rgba(255, 255, 255, .025);
+      box-shadow: 0 32px 80px rgba(0, 0, 0, .28);
+    }
+
+    .birthday-portrait-inner {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      border-radius: 180px 180px 20px 20px;
+      background:
+        radial-gradient(circle at 50% 28%, rgba(255, 255, 255, .09), transparent 30%),
+        linear-gradient(160deg, #102c49 0%, #07182b 58%, #03101e 100%);
+      border: 1px solid rgba(255, 255, 255, .08);
+      color: var(--silver-300);
+      text-transform: uppercase;
+      letter-spacing: .16em;
+      font-size: 10px;
+      line-height: 1.8;
+    }
+
+    .birthday-portrait-inner span {
+      display: block;
+      margin-bottom: 10px;
+      font-family: "Cormorant Garamond", serif;
+      font-size: 34px;
+      line-height: 1;
+      text-transform: none;
+      letter-spacing: .02em;
+      color: var(--silver-100);
+    }
+
+    .birthday-photo {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      display: block;
+      object-fit: cover;
+      object-position: center;
+      border-radius: 180px 180px 20px 20px;
+    }
+
+    .sizes-editorial {
+      position: relative;
+      z-index: 2;
+      width: min(860px, 100%);
+      margin: 0 auto;
+      clear: both;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      align-items: start;
+    }
+
+    .size-line {
+      position: relative;
+      padding: 4px 28px;
+    }
+
+    .size-line+.size-line::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 8px;
+      bottom: 8px;
+      width: 1px;
+      background: linear-gradient(to bottom, transparent, rgba(255, 255, 255, .22), transparent);
+    }
+
+    .size-line small {
+      display: block;
+      margin-bottom: 12px;
+      color: var(--silver-400);
+      text-transform: uppercase;
+      letter-spacing: .18em;
+      font-size: 10px;
+    }
+
+    .size-line strong {
+      display: block;
+      font-family: "Cormorant Garamond", serif;
+      color: var(--white);
+      font-size: clamp(34px, 4vw, 48px);
+      font-weight: 500;
+      line-height: 1;
+    }
+
+    .size-line p {
+      margin-top: 10px;
+      color: var(--silver-300);
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    @media (max-width: 700px) {
+      .birthday-editorial {
+        padding: 88px 0 96px;
+      }
+
+      .birthday-portrait {
+        margin-bottom: 44px;
+      }
+
+      .sizes-editorial {
+        grid-template-columns: 1fr;
+        gap: 0;
+      }
+
+      .size-line {
+        padding: 24px 0;
+      }
+
+      .size-line+.size-line::before {
+        left: 50%;
+        top: 0;
+        bottom: auto;
+        width: 80px;
+        height: 1px;
+        transform: translateX(-50%);
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, .22), transparent);
+      }
+    }
+
+    /* ===== Ambientação premium em toda a página ===== */
+    body {
+      position: relative;
+      isolation: isolate;
+      background-attachment: fixed;
+    }
+
+    body::before {
+      z-index: -3;
+      opacity: .34;
+      background-image:
+        linear-gradient(rgba(255, 255, 255, .018) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, .018) 1px, transparent 1px);
+      background-size: 42px 42px;
+      mask-image: linear-gradient(to bottom, black 0%, rgba(0,0,0,.88) 80%, transparent 100%);
+      animation: backgroundGrid 28s linear infinite;
+    }
+
+    body::after {
+      content: "";
+      position: fixed;
+      inset: -25%;
+      z-index: -4;
+      pointer-events: none;
+      background:
+        radial-gradient(circle at 16% 20%, rgba(154, 187, 225, .16), transparent 23%),
+        radial-gradient(circle at 83% 16%, rgba(75, 119, 166, .17), transparent 25%),
+        radial-gradient(circle at 72% 78%, rgba(187, 198, 214, .09), transparent 24%),
+        radial-gradient(circle at 22% 83%, rgba(54, 97, 143, .13), transparent 26%);
+      filter: blur(18px);
+      animation: ambientLight 20s ease-in-out infinite alternate;
+    }
+
+    main {
+      position: relative;
+      z-index: 1;
+    }
+
+    main::before,
+    main::after {
+      content: "";
+      position: fixed;
+      z-index: -1;
+      width: 420px;
+      height: 420px;
+      border-radius: 50%;
+      pointer-events: none;
+      filter: blur(90px);
+      opacity: .14;
+    }
+
+    main::before {
+      top: 18%;
+      left: -230px;
+      background: #9fb8d3;
+      animation: floatingOrbOne 18s ease-in-out infinite;
+    }
+
+    main::after {
+      right: -240px;
+      bottom: 4%;
+      background: #577da6;
+      animation: floatingOrbTwo 22s ease-in-out infinite;
+    }
+
+    section:not(.hero) {
+      isolation: isolate;
+    }
+
+    section:not(.hero)::before {
+      content: "";
+      position: absolute;
+      inset: 8% 0 auto;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,.055), transparent);
+      pointer-events: none;
+    }
+
+    @keyframes backgroundGrid {
+      to { background-position: 42px 42px; }
+    }
+
+    @keyframes ambientLight {
+      0% { transform: translate3d(-2%, -1%, 0) scale(1); }
+      100% { transform: translate3d(3%, 2%, 0) scale(1.08); }
+    }
+
+    @keyframes floatingOrbOne {
+      0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
+      50% { transform: translate3d(90px, 110px, 0) scale(1.18); }
+    }
+
+    @keyframes floatingOrbTwo {
+      0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
+      50% { transform: translate3d(-100px, -80px, 0) scale(1.14); }
+    }
+
+    /* ===== Topbar premium ===== */
+    .topbar {
+      padding: 16px 0;
+      transform: translateY(0);
+      transition:
+        padding .35s ease,
+        background .35s ease,
+        border-color .35s ease,
+        box-shadow .35s ease,
+        transform .35s ease;
+    }
+
+    .topbar .nav {
+      width: fit-content;
+      max-width: calc(100% - 24px);
+      min-height: 54px;
+      padding: 7px 10px;
+      border: 1px solid transparent;
+      border-radius: 999px;
+      transition:
+        background .35s ease,
+        border-color .35s ease,
+        box-shadow .35s ease,
+        backdrop-filter .35s ease;
+    }
+
+    .topbar.scrolled {
+      padding: 10px 0;
+      background: transparent;
+      border-bottom: 0;
+      backdrop-filter: none;
+    }
+
+    .topbar.scrolled .nav {
+      background: rgba(3, 16, 30, .72);
+      border-color: rgba(255, 255, 255, .11);
+      box-shadow: 0 15px 45px rgba(0, 0, 0, .28);
+      backdrop-filter: blur(20px) saturate(135%);
+    }
+
+    .nav-links {
+      gap: 4px;
+    }
+
+    .nav-links a {
+      position: relative;
+      padding: 11px 17px;
+      border-radius: 999px;
+      transition: color .25s ease, background .25s ease, transform .25s ease;
+    }
+
+    .nav-links a:hover {
+      color: var(--white);
+      background: rgba(255, 255, 255, .065);
+      transform: translateY(-1px);
+    }
+
+    .nav-links a.active {
+      color: var(--navy-950);
+      background: linear-gradient(135deg, var(--white), var(--silver-300));
+      box-shadow: 0 8px 22px rgba(0, 0, 0, .18);
+    }
+
+    /* ===== Hero animado ===== */
+    .hero {
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: "";
+      position: absolute;
+      z-index: -2;
+      width: min(700px, 95vw);
+      aspect-ratio: 1;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -52%);
+      border-radius: 50%;
+      border: 1px solid rgba(255, 255, 255, .075);
+      box-shadow:
+        0 0 0 70px rgba(255,255,255,.018),
+        0 0 0 150px rgba(255,255,255,.012);
+      animation: heroHalo 9s ease-in-out infinite;
+    }
+
+    .hero .container {
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero .ornament,
+    .hero h1,
+    .hero-subtitle,
+    .hero-actions,
+    .scroll-hint {
+      opacity: 0;
+      animation: heroReveal .9s cubic-bezier(.2,.75,.25,1) forwards;
+    }
+
+    .hero .ornament { animation-delay: .15s; }
+    .hero h1 { animation-delay: .32s; }
+    .hero-subtitle { animation-delay: .52s; }
+    .hero-actions { animation-delay: .7s; }
+    .hero .scroll-hint { animation-delay: 1s; }
+
+    .hero h1 {
+      background: linear-gradient(120deg, #ffffff 20%, #bdc9d8 48%, #ffffff 74%);
+      background-size: 220% auto;
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      animation:
+        heroReveal .95s cubic-bezier(.2,.75,.25,1) .32s forwards,
+        titleShine 8s linear 1.4s infinite;
+    }
+
+    .hero h1 span {
+      -webkit-text-fill-color: var(--silver-200);
+    }
+
+    .ornament::before,
+    .ornament::after {
+      transform-origin: center;
+      animation: lineBreath 3.8s ease-in-out infinite;
+    }
+
+    .ornament::after {
+      transform: rotate(180deg);
+    }
+
+    @keyframes heroReveal {
+      from {
+        opacity: 0;
+        transform: translateY(32px);
+        filter: blur(8px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+        filter: blur(0);
+      }
+    }
+
+    @keyframes titleShine {
+      to { background-position: -220% center; }
+    }
+
+    @keyframes heroHalo {
+      0%, 100% { transform: translate(-50%, -52%) scale(.96); opacity: .65; }
+      50% { transform: translate(-50%, -52%) scale(1.04); opacity: 1; }
+    }
+
+    @keyframes lineBreath {
+      0%, 100% { opacity: .45; width: 62px; }
+      50% { opacity: 1; width: 84px; }
+    }
+
+    /* ===== Cards e conteúdos com movimento ===== */
+    .glass-card {
+      transform-style: preserve-3d;
+      will-change: transform;
+    }
+
+    .info-card,
+    .gift-card {
+      transition:
+        transform .4s cubic-bezier(.2,.75,.25,1),
+        border-color .35s ease,
+        background .35s ease,
+        box-shadow .4s ease;
+    }
+
+    .info-card:hover,
+    .gift-card:hover {
+      transform: translateY(-8px);
+      border-color: rgba(255, 255, 255, .25);
+      background: linear-gradient(150deg, rgba(255,255,255,.115), rgba(255,255,255,.035));
+      box-shadow: 0 30px 85px rgba(0, 0, 0, .34);
+    }
+
+    .info-card:hover .info-icon {
+      transform: translateY(-4px) rotate(5deg);
+      background: rgba(255,255,255,.13);
+      border-color: rgba(255,255,255,.22);
+    }
+
+    .info-icon {
+      transition: transform .4s cubic-bezier(.2,.75,.25,1), background .3s ease, border-color .3s ease;
+    }
+
+    .gift-card:hover .gift-number {
+      color: rgba(255,255,255,.28);
+      transform: translateY(-3px);
+    }
+
+    .gift-number {
+      transition: transform .35s ease, color .35s ease;
+    }
+
+    .gift-tag {
+      transition: background .3s ease, color .3s ease, transform .3s ease;
+    }
+
+    .gift-card:hover .gift-tag {
+      color: var(--white);
+      background: rgba(255,255,255,.11);
+      transform: translateX(3px);
+    }
+
+    .map-link {
+      transition: color .25s ease, border-color .25s ease, letter-spacing .25s ease;
+    }
+
+    .map-link:hover {
+      color: var(--white);
+      border-color: var(--white);
+      letter-spacing: .025em;
+    }
+
+    /* Entrada ao rolar */
+    .reveal {
+      opacity: 0;
+      transform: translateY(34px);
+      filter: blur(5px);
+      transition:
+        opacity .8s ease,
+        transform .8s cubic-bezier(.2,.75,.25,1),
+        filter .8s ease;
+      transition-delay: var(--reveal-delay, 0ms);
+    }
+
+    .reveal.is-visible {
+      opacity: 1;
+      transform: translateY(0);
+      filter: blur(0);
+    }
+
+    .birthday-portrait.reveal {
+      transform: translateY(36px) scale(.96);
+    }
+
+    .birthday-portrait.reveal.is-visible {
+      transform: translateY(0) scale(1);
+    }
+
+    .birthday-photo {
+      transition: transform 1.2s cubic-bezier(.2,.75,.25,1), filter .6s ease;
+    }
+
+    .birthday-portrait:hover .birthday-photo {
+      transform: scale(1.035);
+      filter: brightness(1.04);
+    }
+
+    .size-line {
+      transition: padding .3s ease, color .3s ease;
+    }
+
+    .size-line:hover {
+      padding-left: 12px;
+      padding-right: 12px;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        animation-duration: .01ms !important;
+        animation-iteration-count: 1 !important;
+        scroll-behavior: auto !important;
+        transition-duration: .01ms !important;
+      }
+
+      .reveal {
+        opacity: 1;
+        transform: none;
+        filter: none;
+      }
+    }
+
+    @media (max-width: 560px) {
+      .topbar .nav {
+        max-width: calc(100% - 16px);
+        padding: 5px 6px;
+      }
+
+      .nav-links {
+        gap: 2px;
+      }
+
+      .nav-links a {
+        padding: 10px 11px;
+      }
+
+      .hero::before {
+        width: 560px;
+      }
+    }
+
+
+    .scroll-hint {
+      width: max-content;
+      text-align: center;
+      align-items: center;
+      justify-content: center;
+    }
+
+
+    /* Corrige a centralização do indicador durante e após a animação */
+    .hero .scroll-hint {
+      left: 50%;
+      width: max-content;
+      text-align: center;
+      align-items: center;
+      justify-content: center;
+      animation-name: scrollHintReveal;
+    }
+
+    @keyframes scrollHintReveal {
+      from {
+        opacity: 0;
+        transform: translateX(-50%) translateY(32px);
+        filter: blur(8px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+        filter: blur(0);
+      }
+    }
+
+
+    /* ===== Ajustes completos para mobile ===== */
+    @media (max-width: 768px) {
+      html {
+        scroll-padding-top: 92px;
+      }
+
+      body {
+        background-attachment: scroll;
+      }
+
+      .container {
+        width: min(100% - 28px, 1120px);
+      }
+
+      .topbar {
+        padding: 8px 0;
+      }
+
+      .topbar .nav,
+      .topbar.scrolled .nav {
+        width: calc(100% - 20px);
+        max-width: none;
+        min-height: 48px;
+        padding: 5px;
+        overflow-x: auto;
+        justify-content: flex-start;
+        scrollbar-width: none;
+      }
+
+      .topbar .nav::-webkit-scrollbar {
+        display: none;
+      }
+
+      .nav-links {
+        width: max-content;
+        min-width: 100%;
+        flex-wrap: nowrap;
+        justify-content: center;
+        gap: 2px;
+      }
+
+      .nav-links a {
+        flex: 0 0 auto;
+        padding: 10px 12px;
+        font-size: 10px;
+        letter-spacing: .07em;
+        white-space: nowrap;
+      }
+
+      .hero {
+        min-height: 100svh;
+        padding: 112px 0 92px;
+      }
+
+      .hero::before {
+        width: 520px;
+        max-width: 135vw;
+      }
+
+      .ornament {
+        gap: 10px;
+        margin-bottom: 22px;
+        font-size: 9px;
+        letter-spacing: .22em;
+      }
+
+      .ornament::before,
+      .ornament::after {
+        width: 34px !important;
+      }
+
+      .hero h1 {
+        font-size: clamp(76px, 25vw, 118px);
+        line-height: .74;
+        letter-spacing: -.06em;
+      }
+
+      .hero h1 span {
+        margin-top: 18px;
+        font-size: clamp(36px, 10.5vw, 58px);
+        line-height: .95;
+        letter-spacing: .01em;
+      }
+
+      .hero-subtitle {
+        max-width: 92%;
+        margin-top: 28px;
+        font-size: 15px;
+        line-height: 1.65;
+      }
+
+      .hero-actions {
+        width: 100%;
+        max-width: 360px;
+        margin: 30px auto 0;
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      .hero-actions .btn {
+        width: 100%;
+        min-height: 50px;
+      }
+
+      .scroll-hint {
+        bottom: 22px;
+        font-size: 9px;
+      }
+
+      section {
+        padding: 76px 0;
+      }
+
+      .section-heading {
+        margin-bottom: 32px;
+      }
+
+      .section-heading h2 {
+        font-size: clamp(42px, 12vw, 60px);
+        line-height: .98;
+      }
+
+      .section-heading p {
+        margin-top: 16px;
+        font-size: 14px;
+        line-height: 1.7;
+      }
+
+      .event-grid,
+      .gift-grid {
+        grid-template-columns: 1fr;
+        gap: 14px;
+      }
+
+      .info-card,
+      .gift-card {
+        min-height: auto;
+        padding: 24px;
+      }
+
+      .info-card {
+        padding-bottom: 26px;
+      }
+
+      .info-icon {
+        width: 44px;
+        height: 44px;
+        margin-bottom: 22px;
+      }
+
+      .info-card h3 {
+        font-size: 28px;
+      }
+
+      .gift-number {
+        font-size: 46px;
+      }
+
+      .gift-card h3 {
+        margin-top: 16px;
+        font-size: 28px;
+      }
+
+      .gift-card p {
+        font-size: 13px;
+      }
+
+      .gift-tag {
+        margin-top: 18px;
+      }
+
+      .birthday-editorial {
+        padding: 82px 0 92px;
+      }
+
+      .birthday-editorial .section-heading {
+        margin-bottom: 38px;
+      }
+
+      .birthday-portrait {
+        width: min(320px, 86vw);
+        margin-bottom: 42px;
+        padding: 8px;
+      }
+
+      .birthday-portrait,
+      .birthday-photo,
+      .birthday-portrait-inner {
+        border-radius: 160px 160px 22px 22px;
+      }
+
+      .sizes-editorial {
+        width: min(100%, 560px);
+      }
+
+      .size-line {
+        grid-template-columns: 1fr auto;
+        gap: 18px;
+        padding: 20px 2px;
+      }
+
+      .size-line strong {
+        font-size: 34px;
+      }
+
+      .size-line p {
+        font-size: 11px;
+      }
+
+      .closing {
+        padding: 88px 0 78px;
+      }
+
+      .closing h2 {
+        font-size: clamp(48px, 14vw, 68px);
+        line-height: .95;
+      }
+
+      .closing p {
+        font-size: 14px;
+      }
+
+      footer {
+        padding: 22px 0 28px;
+      }
+
+      main::before,
+      main::after {
+        width: 260px;
+        height: 260px;
+        filter: blur(70px);
+      }
+
+      .info-card:hover,
+      .gift-card:hover,
+      .size-line:hover,
+      .birthday-portrait:hover .birthday-photo {
+        transform: none;
+      }
+    }
+
+    @media (max-width: 420px) {
+      .container {
+        width: min(100% - 22px, 1120px);
+      }
+
+      .nav-links a {
+        padding: 9px 10px;
+        font-size: 9px;
+      }
+
+      .hero {
+        padding-top: 102px;
+      }
+
+      .hero h1 {
+        font-size: clamp(70px, 24vw, 96px);
+      }
+
+      .hero h1 span {
+        font-size: clamp(32px, 10vw, 46px);
+      }
+
+      .hero-subtitle {
+        max-width: 100%;
+        font-size: 14px;
+      }
+
+      .birthday-portrait {
+        width: min(292px, 88vw);
+      }
+
+      .size-line {
+        gap: 12px;
+      }
+
+      .size-line small {
+        font-size: 9px;
+      }
+
+      .size-line strong {
+        font-size: 31px;
+      }
+    }
+
+    @media (hover: none) and (pointer: coarse) {
+      .info-card,
+      .gift-card,
+      .birthday-photo,
+      .size-line,
+      .btn,
+      .nav-links a {
+        transition-duration: .2s;
+      }
+    }
+
+
+    /* ===== Refinamento mobile da seção da aniversariante ===== */
+    @media (max-width: 768px) {
+      .birthday-editorial {
+        padding: 74px 0 84px;
+      }
+
+      .birthday-editorial .container {
+        width: min(100% - 30px, 1120px);
+      }
+
+      .birthday-editorial .section-heading {
+        max-width: 540px;
+        margin: 0 auto 30px;
+      }
+
+      .birthday-editorial .section-heading .eyebrow {
+        margin-bottom: 10px;
+        font-size: 9px;
+        letter-spacing: .18em;
+      }
+
+      .birthday-editorial .section-heading h2 {
+        max-width: 520px;
+        margin: 0 auto;
+        font-size: clamp(40px, 10.5vw, 56px);
+        line-height: .96;
+        letter-spacing: -.025em;
+        text-wrap: balance;
+      }
+
+      .birthday-editorial .section-heading p {
+        max-width: 440px;
+        margin: 16px auto 0;
+        padding: 0 4px;
+        font-size: 13px;
+        line-height: 1.65;
+        text-wrap: pretty;
+      }
+
+      .birthday-portrait {
+        width: min(286px, 76vw);
+        margin: 0 auto 30px;
+        padding: 7px;
+        border-radius: 150px 150px 22px 22px;
+      }
+
+      .birthday-portrait-inner,
+      .birthday-photo {
+        border-radius: 144px 144px 16px 16px;
+      }
+
+      .sizes-editorial {
+        width: min(100%, 500px);
+        margin: 0 auto;
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        align-items: stretch;
+      }
+
+      .size-line {
+        display: block;
+        min-width: 0;
+        padding: 8px 12px;
+        text-align: center;
+      }
+
+      .size-line + .size-line::before {
+        left: 0;
+        top: 6px;
+        bottom: 6px;
+        width: 1px;
+        height: auto;
+        transform: none;
+        background: linear-gradient(
+          to bottom,
+          transparent,
+          rgba(255, 255, 255, .22),
+          transparent
+        );
+      }
+
+      .size-line small {
+        margin-bottom: 9px;
+        font-size: 8px;
+        letter-spacing: .15em;
+      }
+
+      .size-line strong {
+        font-size: clamp(27px, 7.5vw, 35px);
+        line-height: 1;
+        white-space: nowrap;
+      }
+
+      .size-line p {
+        margin-top: 8px;
+        font-size: 9px;
+        line-height: 1.35;
+      }
+    }
+
+    @media (max-width: 420px) {
+      .birthday-editorial {
+        padding: 68px 0 76px;
+      }
+
+      .birthday-editorial .container {
+        width: min(100% - 24px, 1120px);
+      }
+
+      .birthday-editorial .section-heading {
+        margin-bottom: 26px;
+      }
+
+      .birthday-editorial .section-heading h2 {
+        font-size: clamp(37px, 11vw, 46px);
+        line-height: .94;
+      }
+
+      .birthday-editorial .section-heading p {
+        max-width: 340px;
+        font-size: 12px;
+        line-height: 1.6;
+      }
+
+      .birthday-portrait {
+        width: min(252px, 74vw);
+        margin-bottom: 26px;
+        padding: 6px;
+        border-radius: 132px 132px 20px 20px;
+      }
+
+      .birthday-portrait-inner,
+      .birthday-photo {
+        border-radius: 126px 126px 15px 15px;
+      }
+
+      .sizes-editorial {
+        width: 100%;
+      }
+
+      .size-line {
+        padding: 6px 8px;
+      }
+
+      .size-line small {
+        font-size: 7px;
+        letter-spacing: .13em;
+      }
+
+      .size-line strong {
+        font-size: clamp(25px, 7.3vw, 31px);
+      }
+
+      .size-line p {
+        font-size: 8px;
+      }
+    }
+
+  </style>
+</head>
+
+<body>
+  <header class="topbar" id="topbar">
+    <div class="container nav">
+      <nav class="nav-links" aria-label="Navegação principal">
+        <a href="#evento">O evento</a>
+        <a href="#presentes">Presentes</a>
+        <a href="#pix">Numerações</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero" id="inicio">
+      <div class="container">
+        <div class="ornament">Uma noite inesquecível</div>
+        <h1>15<span>anos da Ana Clara </span></h1>
+        <p class="hero-subtitle">
+          Um momento único merece ser celebrado ao lado de pessoas especiais.
+          Esperamos você para compartilhar essa noite inesquecível conosco.
+        </p>
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="#evento">Ver informações</a>
+          <a class="btn btn-secondary" target="_top" href="/convidado">Área de convidados</a>
+        </div>
+      </div>
+      <div class="scroll-hint" aria-hidden="true">
+        <div class="mouse"></div>
+        Role para ver
+      </div>
+    </section>
+
+    <section id="evento">
+      <div class="container">
+        <div class="section-heading">
+          <span class="eyebrow">Informações do evento</span>
+          <h2>Prepare-se para uma noite inesquecível</h2>
+          <p>
+            Confira abaixo a data, o horário e o local da celebração. Ajuste estes dados
+            diretamente no arquivo antes de publicar o site.
+          </p>
+        </div>
+
+        <div class="event-grid">
+          <article class="glass-card info-card">
+            <div class="info-icon">✦</div>
+            <small>Data</small>
+            <h3>23 de outubro</h3>
+            <p>Sexta-feira, 2026</p>
+          </article>
+
+          <article class="glass-card info-card">
+            <div class="info-icon">◷</div>
+            <small>Horário</small>
+            <h3>19h00</h3>
+            <p>Pedimos a gentileza de chegar com 15 minutos de antecedência.</p>
+          </article>
+
+          <article class="glass-card info-card">
+            <div class="info-icon">⌖</div>
+            <small>Local</small>
+            <h3>Salão Max Eventos</h3>
+            <p>Est. Do Ganchinho, 957 — Curitiba, PR</p>
+            <a class="map-link"
+              href="https://www.google.com/maps/dir//Max+Eventos+-+Estr.+do+Ganchinho,+957+-+S%C3%ADtio+Cercado,+Curitiba+-+PR,+81935-006/@-25.5481712,-49.2867692,17z/data=!4m17!1m7!3m6!1s0x94dcfb8b1a42d2ef:0x60d767fbd4810a67!2sMax+Eventos!8m2!3d-25.5481761!4d-49.2841943!16s%2Fg%2F11ckksg2vm!4m8!1m0!1m5!1m1!1s0x94dcfb8b1a42d2ef:0x60d767fbd4810a67!2m2!1d-49.2841943!2d-25.5481761!3e9?entry=ttu&g_ep=EgoyMDI2MDgwMi4wIKXMDSoASAFQAw%3D%3D"
+              target="_blank" rel="noopener noreferrer">Abrir no
+              mapa</a>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="presentes">
+      <div class="container">
+        <div class="section-heading">
+          <span class="eyebrow">Lista de presentes</span>
+          <p>
+            Para quem deseja presentear, reunimos algumas sugestões.
+          </p>
+        </div>
+
+        <div class="gift-grid" id="giftGrid" aria-live="polite">
+          <div class="gift-loading">Carregando sugestões de presentes...</div>
+        </div>
+      </div>
+    </section>
+    <section id="pix" class="birthday-editorial">
+      <div class="container">
+        <div class="section-heading">
+          <span class="eyebrow">Detalhes da aniversariante</span>
+          <h2>Para escolher o presente perfeito</h2>
+          <p>
+            Algumas informações especiais para ajudar você a escolher algo que combine com a Ana Clara.
+          </p>
+        </div>
+
+        <div class="birthday-portrait">
+          <div class="birthday-portrait-inner">
+            <img src="Sem título.jpg" alt="Foto da Ana Clara" class="birthday-photo" />
+          </div>
+        </div>
+
+        <div class="sizes-editorial">
+          <div class="size-line">
+            <small>Blusa</small>
+            <strong>P</strong>
+          </div>
+
+          <div class="size-line">
+            <small>Calça</small>
+            <strong>M</strong>
+            <p>38 justa • 40 larga</p>
+          </div>
+
+          <div class="size-line">
+            <small>Sapato</small>
+            <strong>37/38</strong>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="closing">
+      <div class="container">
+        <span class="eyebrow">Contamos com você</span>
+        <h2>Nos vemos na celebração</h2>
+        <p>
+          A sua presença tornará este momento ainda mais bonito, especial e inesquecível.
+        </p>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">Com carinho, família da Ana Clara • 2026</div>
+  </footer>
+
+  <div class="toast" id="toast" role="status" aria-live="polite">Chave PIX copiada!</div>
+
+
+  <script type="module">
+    const topbar = document.getElementById('topbar');
+    const navLinks = [...document.querySelectorAll('.nav-links a')];
+    const sections = [...document.querySelectorAll('main section[id]')];
+    const giftGrid = document.getElementById('giftGrid');
+
+    // Mesma URL do backend utilizada pelas áreas de convidados e administrativa.
+    const viteApiUrl = '%VITE_API_URL%';
+
+    const normalizeApiBase = (value) => {
+      const normalized = String(value || '').trim();
+      if (!normalized || normalized.startsWith('%')) return '';
+      return normalized.replace(/\/+$/, '');
+    };
+
+    const CONFIGURED_API_BASE =
+      normalizeApiBase(viteApiUrl) ||
+      normalizeApiBase(window.__API_BASE_URL__) ||
+      'http://localhost:3000/api';
+
+    const escapeHtml = (value = '') =>
+      String(value)
+        .replaceAll('&', '&amp;')
+        .replaceAll('<', '&lt;')
+        .replaceAll('>', '&gt;')
+        .replaceAll('"', '&quot;')
+        .replaceAll("'", '&#039;');
+
+    const formatMoney = (value) =>
+      new Intl.NumberFormat('pt-BR', {
+        style: 'currency',
+        currency: 'BRL'
+      }).format(Number(value));
+
+    const updateTopbar = () => {
+      topbar?.classList.toggle('scrolled', window.scrollY > 24);
+    };
+
+    const updateActiveLink = () => {
+      const marker = window.scrollY + Math.min(window.innerHeight * .38, 280);
+      let activeId = 'inicio';
+
+      sections.forEach((section) => {
+        if (marker >= section.offsetTop) activeId = section.id;
+      });
+
+      navLinks.forEach((link) => {
+        link.classList.toggle('active', link.getAttribute('href') === `#${activeId}`);
+      });
+    };
+
+    window.addEventListener('scroll', () => {
+      updateTopbar();
+      updateActiveLink();
+    }, { passive: true });
+
+    updateTopbar();
+    updateActiveLink();
+
+    const revealObserver = new IntersectionObserver((entries, observer) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        entry.target.classList.add('is-visible');
+        observer.unobserve(entry.target);
+      });
+    }, {
+      threshold: .12,
+      rootMargin: '0px 0px -55px 0px'
+    });
+
+    const prepareReveal = (elements) => {
+      elements.filter(Boolean).forEach((element, index) => {
+        if (element.dataset.revealReady === 'true') return;
+
+        element.dataset.revealReady = 'true';
+        element.classList.add('reveal');
+        element.style.setProperty('--reveal-delay', `${(index % 3) * 90}ms`);
+        revealObserver.observe(element);
+      });
+    };
+
+    const prepareTilt = (cards) => {
+      cards.forEach((card) => {
+        if (card.dataset.tiltReady === 'true') return;
+        card.dataset.tiltReady = 'true';
+
+        card.addEventListener('mousemove', (event) => {
+          if (window.matchMedia('(hover: none), (pointer: coarse)').matches) return;
+
+          const rect = card.getBoundingClientRect();
+          const x = (event.clientX - rect.left) / rect.width - .5;
+          const y = (event.clientY - rect.top) / rect.height - .5;
+
+          card.style.transform =
+            `perspective(900px) rotateX(${y * -2.5}deg) rotateY(${x * 3}deg) translateY(-8px)`;
+        });
+
+        card.addEventListener('mouseleave', () => {
+          card.style.transform = '';
+        });
+      });
+    };
+
+    const setupStaticAnimations = () => {
+      prepareReveal([
+        ...document.querySelectorAll('.section-heading'),
+        ...document.querySelectorAll('.info-card'),
+        document.querySelector('.birthday-portrait'),
+        ...document.querySelectorAll('.size-line'),
+        document.querySelector('.closing .container')
+      ]);
+
+      prepareTilt([...document.querySelectorAll('.info-card')]);
+    };
+
+    const renderGiftCards = (gifts) => {
+      if (!giftGrid) return;
+
+      const activeGifts = [...gifts]
+        .filter((gift) => gift.active !== false)
+        .sort((a, b) => {
+          const orderDiff = Number(a.sortOrder ?? 0) - Number(b.sortOrder ?? 0);
+          if (orderDiff !== 0) return orderDiff;
+          return String(a.title ?? '').localeCompare(String(b.title ?? ''), 'pt-BR');
+        });
+
+      if (activeGifts.length === 0) {
+        giftGrid.innerHTML =
+          '<div class="gift-empty">Nenhuma sugestão de presente disponível no momento.</div>';
+        return;
+      }
+
+      giftGrid.innerHTML = activeGifts.map((gift, index) => {
+        const number = String(index + 1).padStart(2, '0');
+        const title = escapeHtml(gift.title);
+        const description = gift.description
+          ? `<p>${escapeHtml(gift.description)}</p>`
+          : '';
+
+        let footer = '';
+
+        if (gift.externalUrl) {
+          const safeUrl = escapeHtml(gift.externalUrl);
+          footer = `<a class="gift-link" href="${safeUrl}" target="_blank" rel="noopener noreferrer">Abrir link</a>`;
+        } else if (gift.type === 'MONEY' && gift.suggestedAmount != null) {
+          footer = `<div class="gift-tag">Sugestão: ${escapeHtml(formatMoney(gift.suggestedAmount))}</div>`;
+        } else if (gift.type === 'MONEY') {
+          footer = '<div class="gift-tag">Valor livre</div>';
+        } else {
+          footer = '<div class="gift-tag">Sugestão de presente</div>';
+        }
+
+        return `
+          <article class="glass-card gift-card">
+            <div>
+              <div class="gift-number">${number}</div>
+              <h3>${title}</h3>
+              ${description}
+            </div>
+            ${footer}
+          </article>
+        `;
+      }).join('');
+
+      const giftCards = [...giftGrid.querySelectorAll('.gift-card')];
+      prepareReveal(giftCards);
+      prepareTilt(giftCards);
+    };
+
+    const buildGiftEndpointCandidates = () => {
+      const candidates = [];
+
+      const add = (url) => {
+        if (!url || candidates.includes(url)) return;
+        candidates.push(url);
+      };
+
+      if (CONFIGURED_API_BASE) {
+        add(`${CONFIGURED_API_BASE}/gifts`);
+
+        // Aceita também uma URL configurada sem o prefixo global /api.
+        if (!CONFIGURED_API_BASE.endsWith('/api')) {
+          add(`${CONFIGURED_API_BASE}/api/gifts`);
+        }
+
+      }
+
+      // Fallbacks úteis quando frontend e backend são servidos pelo mesmo host
+      // ou quando há rewrites/proxy configurados na Vercel.
+      add('/api/gifts');
+      add('/gifts');
+
+      return candidates;
+    };
+
+    const requestGiftList = async () => {
+      const candidates = buildGiftEndpointCandidates();
+      const attempts = [];
+
+      for (const url of candidates) {
+        try {
+          const response = await fetch(url, {
+            method: 'GET',
+            headers: {
+              Accept: 'application/json'
+            },
+            cache: 'no-store'
+          });
+
+          const contentType = response.headers.get('content-type') || '';
+
+          if (!response.ok) {
+            attempts.push(`${url} → HTTP ${response.status}`);
+            continue;
+          }
+
+          if (!contentType.includes('application/json')) {
+            attempts.push(`${url} → resposta não é JSON`);
+            continue;
+          }
+
+          const data = await response.json();
+
+          if (!Array.isArray(data)) {
+            attempts.push(`${url} → resposta JSON inválida`);
+            continue;
+          }
+
+          console.info('[Presentes] Endpoint utilizado:', url);
+          return data;
+        } catch (error) {
+          attempts.push(
+            `${url} → ${error instanceof Error ? error.message : 'erro de conexão'}`
+          );
+        }
+      }
+
+      throw new Error(
+        `Nenhum endpoint de presentes respondeu corretamente. ${attempts.join(' | ')}`
+      );
+    };
+
+    const loadPublicGifts = async () => {
+      if (!giftGrid) return;
+
+      try {
+        const gifts = await requestGiftList();
+        renderGiftCards(gifts);
+      } catch (error) {
+        console.error('[Presentes] Erro ao carregar lista pública:', error);
+
+        giftGrid.innerHTML = `
+          <div class="gift-error">
+            Não foi possível carregar a lista de presentes agora.
+            Tente novamente em alguns instantes.
+          </div>
+        `;
+      }
+    };
+
+    setupStaticAnimations();
+    void loadPublicGifts();
+  </script>
+</body>
+
+</html>
