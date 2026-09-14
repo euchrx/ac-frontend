@@ -157,9 +157,6 @@ export function GalleryPage() {
 
   return (
     <main className={`gallery-page gallery-tab-${mobileTab}`}>
-      <div className="gallery-admin-access">
-        {isAdmin ? <><span>Administração · você pode apagar qualquer foto</span><button onClick={() => { localStorage.removeItem("admin_token"); setIsAdmin(false); }}>Sair</button></> : <a href="/admin/login?returnTo=/galeria">Acesso administrativo</a>}
-      </div>
       <header className="gallery-app-header">
         <a href="/" aria-label="Voltar ao convite" className="gallery-app-mark">AC</a>
         <div><strong>Ana Clara</strong><span>Memórias dos 15</span></div>

@@ -2937,8 +2937,6 @@ button:disabled {
 .gallery-pagination button { min-height:48px; padding:0 16px; color:#eaf1f8; border:1px solid rgba(255,255,255,.18); border-radius:14px; background:rgba(190,210,230,.08); }
 .gallery-pagination button:disabled { opacity:.35; }
 .gallery-wall { scroll-margin-top:100px; }
-.gallery-admin-access { display:flex; align-items:center; justify-content:flex-end; gap:16px; padding:10px 20px; background:#061322; color:#b9c9db; font-size:11px; }
-.gallery-admin-access a,.gallery-admin-access button { display:inline-flex; align-items:center; min-height:44px; color:#dae6f2; background:transparent; }
 .gallery-owner-note { margin-bottom:20px; color:#9cabbc; font-size:12px; line-height:1.6; }
 .gallery-lightbox .danger-button { margin-top:20px; }
 .gallery-app-header,.gallery-app-nav,.gallery-app-compose-heading,.gallery-app-notice { display: none; }
