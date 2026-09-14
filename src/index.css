@@ -2884,49 +2884,51 @@ button:disabled {
 }
 
 /* Galeria pública — mural colaborativo */
-.gallery-page { min-height: 100vh; color: #1e1a17; background: #f3eee6; }
-.gallery-hero { min-height: 640px; position: relative; display: flex; flex-direction: column; justify-content: flex-end; padding: 48px clamp(22px, 7vw, 110px) 74px; overflow: hidden; color: #faf7f1; background: radial-gradient(circle at 78% 22%, rgba(216,181,135,.22), transparent 28%), linear-gradient(145deg,#191511,#33261e 55%,#171411); }
+.gallery-page { min-height: 100vh; color: #f4f7fa; background: radial-gradient(circle at 12% 35%,rgba(107,137,172,.1),transparent 28%),linear-gradient(155deg,#020914 0%,#07182b 52%,#04111f 100%); }
+.gallery-hero { min-height: 640px; position: relative; display: flex; flex-direction: column; justify-content: flex-end; padding: 48px clamp(22px, 7vw, 110px) 74px; overflow: hidden; color: #fafcff; background: radial-gradient(circle at 78% 22%, rgba(155,178,204,.2), transparent 28%), linear-gradient(145deg,#020914,#0b2138 55%,#030c17); }
 .gallery-hero::before { content: "15"; position: absolute; right: -2vw; top: -14vh; color: rgba(255,255,255,.035); font-family: "Cormorant Garamond",serif; font-size: min(70vw,700px); line-height: 1; }
 .gallery-hero::after { content: ""; position: absolute; inset: 0; pointer-events: none; opacity: .2; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 160 160' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.18'/%3E%3C/svg%3E"); }
 .gallery-hero > * { position: relative; z-index: 1; }
 .gallery-back { position: absolute; top: 34px; left: clamp(22px,7vw,110px); width: 46px; height: 46px; display: grid; place-items: center; border: 1px solid rgba(255,255,255,.25); border-radius: 50%; font-family: "Cormorant Garamond",serif; font-size: 17px; }
-.gallery-kicker { display: block; margin-bottom: 22px; color: #ceb99e; font-size: 10px; letter-spacing: .28em; text-transform: uppercase; }
+.gallery-kicker { display: block; margin-bottom: 22px; color: #b7c4d2; font-size: 10px; letter-spacing: .28em; text-transform: uppercase; }
 .gallery-hero h1 { max-width: 800px; font-family: "Cormorant Garamond",serif; font-size: clamp(58px,9vw,128px); font-weight: 500; line-height: .78; letter-spacing: -.045em; }
-.gallery-hero h1 em { color: #d9c3a8; font-weight: 500; }
-.gallery-hero p { max-width: 470px; margin-top: 34px; color: #c9c0b7; font-size: 14px; line-height: 1.75; }
-.gallery-cta { position: absolute; right: clamp(22px,7vw,110px); bottom: 78px; min-height: 58px; padding: 0 26px; border-radius: 999px; color: #211a15; background: #f4eee5; font-weight: 600; }
+.gallery-hero h1 em { color: #bdcad8; font-weight: 500; }
+.gallery-hero p { max-width: 470px; margin-top: 34px; color: #b3bfcc; font-size: 14px; line-height: 1.75; }
+.gallery-cta { position: absolute; right: clamp(22px,7vw,110px); bottom: 78px; min-height: 58px; padding: 0 26px; border-radius: 999px; color: #071524; background: linear-gradient(135deg,#fff,#c3ced9); font-weight: 600; }
 .gallery-cta span { margin-right: 8px; font-size: 20px; font-weight: 300; }
-.gallery-upload { position: relative; z-index: 2; width: min(1120px,calc(100% - 40px)); margin: -26px auto 0; padding: 22px; border-radius: 24px; background: #fffdfa; box-shadow: 0 25px 80px rgba(55,39,27,.14); }
+.gallery-upload { position: relative; z-index: 2; width: min(1120px,calc(100% - 40px)); margin: -26px auto 0; padding: 22px; border: 1px solid rgba(255,255,255,.12); border-radius: 24px; background: linear-gradient(145deg,rgba(16,39,63,.98),rgba(6,22,38,.98)); box-shadow: 0 25px 80px rgba(0,0,0,.36); backdrop-filter: blur(20px); }
 .gallery-upload form { display: grid; grid-template-columns: 190px 1fr; gap: 22px; }
-.gallery-picker { min-height: 160px; overflow: hidden; border: 1px dashed #cbbdab; border-radius: 17px; color: #675a4c; background: #f8f3ec; }
+.gallery-picker { min-height: 160px; overflow: hidden; border: 1px dashed rgba(200,214,228,.38); border-radius: 17px; color: #e8edf3; background: rgba(255,255,255,.04); }
 .gallery-picker span { display: grid; gap: 8px; padding: 20px; }
 .gallery-picker strong { font-family: "Cormorant Garamond",serif; font-size: 22px; font-weight: 600; }
-.gallery-picker small { color: #978a7b; font-size: 10px; }
+.gallery-picker small { color: #8998a9; font-size: 10px; }
 .gallery-picker.has-preview { border-style: solid; }
 .gallery-picker img { width: 100%; height: 100%; min-height: 160px; display: block; object-fit: cover; }
 .gallery-file-input { position: absolute; width: 1px; height: 1px; opacity: 0; pointer-events: none; }
 .gallery-fields { display: grid; grid-template-columns: 1fr 1.2fr; align-content: center; gap: 15px; }
-.gallery-fields label { color: #6c6053; font-size: 10px; letter-spacing: .1em; text-transform: uppercase; }
-.gallery-fields label span { color: #aaa095; letter-spacing: 0; text-transform: none; }
-.gallery-fields input { width: 100%; height: 48px; margin-top: 8px; padding: 0 14px; border: 1px solid #ddd3c8; border-radius: 11px; outline: none; color: #241e19; background: #fff; }
-.gallery-fields input:focus { border-color: #8b7660; box-shadow: 0 0 0 3px rgba(139,118,96,.1); }
-.gallery-fields button { grid-column: 1/-1; min-height: 49px; border-radius: 12px; color: #faf7f1; background: #29211b; font-weight: 600; }
-.gallery-message { margin: 14px 4px 0; font-size: 12px; }.gallery-message.error{color:#9c3636}.gallery-message.success{color:#477055}
+.gallery-fields label { color: #aab7c5; font-size: 10px; letter-spacing: .1em; text-transform: uppercase; }
+.gallery-fields label span { color: #718195; letter-spacing: 0; text-transform: none; }
+.gallery-fields input { width: 100%; height: 48px; margin-top: 8px; padding: 0 14px; border: 1px solid rgba(255,255,255,.13); border-radius: 11px; outline: none; color: #f7f9fc; background: rgba(0,0,0,.2); }
+.gallery-fields input::placeholder { color: #68798c; }
+.gallery-fields input:focus { border-color: rgba(214,225,237,.48); box-shadow: 0 0 0 3px rgba(190,207,224,.08); }
+.gallery-fields button { grid-column: 1/-1; min-height: 49px; border-radius: 12px; color: #071524; background: linear-gradient(135deg,#fff,#c3ced9); font-weight: 600; }
+.gallery-message { margin: 14px 4px 0; font-size: 12px; }.gallery-message.error{color:#ffb9b9}.gallery-message.success{color:#bcebd0}
 .gallery-wall { width: min(1320px,calc(100% - 40px)); margin: 90px auto 0; padding-bottom: 100px; }
 .gallery-wall-heading { display: flex; align-items: flex-end; justify-content: space-between; gap: 22px; margin-bottom: 36px; }
-.gallery-wall-heading span { color: #9b7c5d; font-size: 9px; letter-spacing: .24em; text-transform: uppercase; }
+.gallery-wall-heading span { color: #91a3b7; font-size: 9px; letter-spacing: .24em; text-transform: uppercase; }
 .gallery-wall-heading h2 { margin-top: 7px; font-family: "Cormorant Garamond",serif; font-size: clamp(42px,6vw,72px); font-weight: 500; line-height: .9; }
-.gallery-wall-heading > p { display: flex; align-items: center; gap: 8px; color: #817365; font-size: 11px; }.gallery-wall-heading i{width:7px;height:7px;border-radius:50%;background:#759267;box-shadow:0 0 0 4px rgba(117,146,103,.13)}
+.gallery-wall-heading > p { display: flex; align-items: center; gap: 8px; color: #8493a4; font-size: 11px; }.gallery-wall-heading i{width:7px;height:7px;border-radius:50%;background:#91adc7;box-shadow:0 0 0 4px rgba(145,173,199,.13)}
 .gallery-grid { columns: 4 260px; column-gap: 16px; }
-.gallery-photo { position: relative; width: 100%; display: block; break-inside: avoid; margin-bottom: 16px; overflow: hidden; border-radius: 4px; text-align: left; background: #ded5ca; animation: gallery-in .5s both; animation-delay: var(--delay); }
+.gallery-photo { position: relative; width: 100%; display: block; break-inside: avoid; margin-bottom: 16px; overflow: hidden; border: 1px solid rgba(255,255,255,.08); border-radius: 4px; text-align: left; background: #102238; box-shadow: 0 12px 36px rgba(0,0,0,.2); animation: gallery-in .5s both; animation-delay: var(--delay); }
 .gallery-photo img { width: 100%; display: block; transition: transform .55s ease; }.gallery-photo:hover img{transform:scale(1.025)}
 .gallery-photo-info { position: absolute; inset: auto 0 0; display: grid; gap: 3px; padding: 40px 16px 14px; color: white; background: linear-gradient(transparent,rgba(16,12,9,.78)); opacity: 0; transition: opacity .25s ease; }.gallery-photo:hover .gallery-photo-info,.gallery-photo:focus .gallery-photo-info{opacity:1}
 .gallery-photo-info strong{font-size:12px}.gallery-photo-info small{font-size:11px;line-height:1.4}.gallery-photo-info time{margin-top:3px;color:#d4ccc4;font-size:9px;text-transform:uppercase}
-.gallery-status,.gallery-empty { padding: 90px 20px; text-align: center; color: #88796b; }.gallery-empty span{font-size:26px}.gallery-empty h3{margin-top:12px;font-family:"Cormorant Garamond",serif;font-size:32px;font-weight:500}.gallery-empty p{margin-top:7px;font-size:12px}
-.gallery-lightbox { position: fixed; inset: 0; z-index: 200; display: grid; place-items: center; padding: 22px; background: rgba(12,9,7,.92); backdrop-filter: blur(15px); }
-.gallery-lightbox > div { max-width: min(900px,100%); max-height: calc(100vh - 44px); display: grid; grid-template-columns: minmax(0,1fr) 230px; overflow: hidden; border-radius: 6px; background: #f8f3ec; }
-.gallery-lightbox img { width: 100%; height: 100%; max-height: calc(100vh - 44px); object-fit: contain; background:#171310; }.gallery-lightbox footer{align-self:end;padding:28px;color:#332a23}.gallery-lightbox footer strong{font-family:"Cormorant Garamond",serif;font-size:28px}.gallery-lightbox footer p{margin-top:12px;font-size:12px;line-height:1.6}.gallery-lightbox footer time{display:block;margin-top:18px;color:#918477;font-size:9px;text-transform:uppercase}
+.gallery-status,.gallery-empty { padding: 90px 20px; text-align: center; color: #8291a2; }.gallery-empty span{color:#becbd8;font-size:26px}.gallery-empty h3{margin-top:12px;color:#e9eef3;font-family:"Cormorant Garamond",serif;font-size:32px;font-weight:500}.gallery-empty p{margin-top:7px;font-size:12px}
+.gallery-lightbox { position: fixed; inset: 0; z-index: 200; display: grid; place-items: center; padding: 22px; background: rgba(1,7,14,.94); backdrop-filter: blur(15px); }
+.gallery-lightbox > div { max-width: min(900px,100%); max-height: calc(100vh - 44px); display: grid; grid-template-columns: minmax(0,1fr) 230px; overflow: hidden; border: 1px solid rgba(255,255,255,.12); border-radius: 6px; background: linear-gradient(145deg,#102943,#07192b); }
+.gallery-lightbox img { width: 100%; height: 100%; max-height: calc(100vh - 44px); object-fit: contain; background:#020914; }.gallery-lightbox footer{align-self:end;padding:28px;color:#e8edf3}.gallery-lightbox footer strong{font-family:"Cormorant Garamond",serif;font-size:28px}.gallery-lightbox footer p{margin-top:12px;color:#b2bfcc;font-size:12px;line-height:1.6}.gallery-lightbox footer time{display:block;margin-top:18px;color:#7f90a3;font-size:9px;text-transform:uppercase}
 .gallery-lightbox-close { position: fixed; z-index: 1; top: 20px; right: 22px; width: 44px; height: 44px; color: white; border: 1px solid rgba(255,255,255,.25); border-radius: 50%; background: rgba(0,0,0,.2); font-size: 27px; }
 @keyframes gallery-in { from{opacity:0;transform:translateY(16px)} to{opacity:1;transform:none} }
-@media(max-width:760px){.gallery-hero{min-height:590px;padding-bottom:132px}.gallery-hero h1{font-size:62px}.gallery-hero p{margin-top:25px}.gallery-cta{left:22px;right:22px;bottom:50px;width:calc(100% - 44px)}.gallery-upload{width:calc(100% - 24px);margin-top:-20px;padding:14px}.gallery-upload form{grid-template-columns:1fr;gap:14px}.gallery-picker{min-height:210px}.gallery-picker img{height:210px}.gallery-fields{grid-template-columns:1fr}.gallery-fields button{grid-column:auto}.gallery-wall{width:calc(100% - 28px);margin-top:62px}.gallery-grid{columns:2 150px;column-gap:10px}.gallery-photo{margin-bottom:10px}.gallery-photo-info{opacity:1;padding:34px 11px 10px}.gallery-photo-info small{display:none}.gallery-lightbox>div{grid-template-columns:1fr;max-height:calc(100vh - 80px);overflow-y:auto}.gallery-lightbox img{max-height:65vh}.gallery-lightbox footer{padding:18px}.gallery-wall-heading{align-items:flex-start;flex-direction:column}.gallery-wall-heading>p{align-self:flex-end}}
+@media(max-width:760px){.gallery-hero{min-height:100svh;padding:48px 20px calc(132px + env(safe-area-inset-bottom))}.gallery-back{top:calc(20px + env(safe-area-inset-top));left:20px;width:48px;height:48px}.gallery-hero h1{font-size:clamp(54px,17vw,72px);line-height:.82}.gallery-hero p{margin-top:25px}.gallery-cta{left:20px;right:20px;bottom:calc(34px + env(safe-area-inset-bottom));width:calc(100% - 40px);min-height:58px}.gallery-upload{width:calc(100% - 24px);margin-top:-20px;padding:14px}.gallery-upload form{grid-template-columns:1fr;gap:14px}.gallery-picker{min-height:230px;touch-action:manipulation}.gallery-picker img{height:230px}.gallery-fields{grid-template-columns:1fr}.gallery-fields input{height:52px;font-size:16px}.gallery-fields button{grid-column:auto;min-height:54px}.gallery-wall{width:calc(100% - 24px);margin-top:62px;padding-bottom:calc(70px + env(safe-area-inset-bottom))}.gallery-grid{columns:2 145px;column-gap:9px}.gallery-photo{min-height:80px;margin-bottom:9px;touch-action:manipulation}.gallery-photo-info{opacity:1;padding:34px 10px 10px}.gallery-photo-info small{display:none}.gallery-lightbox{padding:58px 10px calc(10px + env(safe-area-inset-bottom))}.gallery-lightbox>div{grid-template-columns:1fr;width:100%;max-height:calc(100svh - 70px);overflow-y:auto}.gallery-lightbox img{max-height:68svh}.gallery-lightbox footer{padding:18px}.gallery-lightbox-close{top:calc(8px + env(safe-area-inset-top));right:10px;width:46px;height:46px}.gallery-wall-heading{align-items:flex-start;flex-direction:column}.gallery-wall-heading>p{align-self:flex-end}}
+@media(max-width:380px){.gallery-hero h1{font-size:52px}.gallery-grid{column-gap:7px}.gallery-photo{margin-bottom:7px}.gallery-photo-info time{display:none}}
 @media(prefers-reduced-motion:reduce){.gallery-photo{animation:none}.gallery-photo img{transition:none}}
