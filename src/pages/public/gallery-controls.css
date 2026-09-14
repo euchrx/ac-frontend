@@ -1,4 +1,11 @@
 /* Controles da galeria inspirados no iOS. */
+.gallery-selection-toolbar { display:flex; flex-wrap:wrap; align-items:center; gap:10px; margin-bottom:22px; }
+.gallery-selection-toolbar button { min-height:44px; padding:10px 14px; border-radius:16px; border:1px solid rgba(190,215,242,.2); background:rgba(161,196,234,.1); color:#dceafb; font-size:12px; }
+.gallery-selection-toolbar > span { color:#a9bed4; font-size:12px; }
+.gallery-selection-toolbar .gallery-delete-selected { color:#ffc6ca; background:rgba(234,90,113,.12); border-color:rgba(234,90,113,.25); margin-left:auto; }
+.gallery-page .gallery-photo-selected { outline:3px solid #bcdcff; outline-offset:-3px; }
+.gallery-selection-check { position:absolute; top:10px; right:10px; z-index:2; width:28px; height:28px; display:grid; place-items:center; border:2px solid #e0ecfa; border-radius:50%; color:#082139; background:rgba(3,16,30,.6); box-shadow:0 2px 10px rgba(0,0,0,.35); }
+.gallery-photo-selected .gallery-selection-check { background:#d2e7ff; }
 .gallery-page.gallery-tab-wall {
   background:radial-gradient(ellipse at 95% 4%,rgba(136,173,215,.15),transparent 32%),radial-gradient(ellipse at 0 40%,rgba(58,105,160,.1),transparent 45%),#030e1c;
 }

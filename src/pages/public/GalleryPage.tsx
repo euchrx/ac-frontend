@@ -56,6 +56,37 @@ export function GalleryPage() {
   const [mobileTab, setMobileTab] = useState<"wall" | "upload" | "mine">("wall");
   const [myPhotos, setMyPhotos] = useState<GalleryPhoto[]>([]);
   const [deleting, setDeleting] = useState(false);
+  const [selecting, setSelecting] = useState(false);
+  const [selectedIds, setSelectedIds] = useState<string[]>([]);
+
+  async function deleteSelected() {
+    const ids = selectedIds.filter((id) => myPhotos.some((photo) => photo.id === id));
+    if (!ids.length || !window.confirm(`Apagar permanentemente ${ids.length} foto(s) do mural?`)) return;
+    setDeleting(true);
+    const deleted: string[] = [];
+    const failed: string[] = [];
+    try {
+      const headers = ownerHeaders();
+      for (const id of ids) {
+        try {
+          await api.delete(`/gallery/${id}`, { headers });
+          deleted.push(id);
+        } catch {
+          failed.push(id);
+        }
+      }
+      setPhotos((items) => items.filter((photo) => !deleted.includes(photo.id)));
+      setMyPhotos((items) => items.filter((photo) => !deleted.includes(photo.id)));
+      setSelectedIds(failed);
+      if (!failed.length) setSelecting(false);
+      if (failed.length) setError(`${deleted.length} foto(s) apagada(s). ${failed.length} não foram apagadas; tente novamente.`);
+      else setSuccess(`${deleted.length} foto(s) apagada(s) do mural.`);
+    } catch {
+      setError("Não foi possível apagar as fotos. Tente novamente.");
+    } finally {
+      setDeleting(false);
+    }
+  }
   const [isAdmin, setIsAdmin] = useState(false);
 
   useEffect(() => {
@@ -219,12 +250,28 @@ export function GalleryPage() {
           <p className="gallery-record-count"><strong>{visiblePhotos.length}</strong><span>{visiblePhotos.length === 1 ? "registro" : "registros"}</span></p>
         </div>
 
+        {mobileTab === "mine" && myPhotos.length > 0 && <div className="gallery-selection-toolbar">
+          <button disabled={deleting} onClick={() => { setSelecting(!selecting); setSelectedIds([]); }}>{selecting ? "Cancelar seleção" : "Selecionar fotos"}</button>
+          {selecting && <>
+            <button disabled={deleting} onClick={() => {
+              const ids = pagePhotos.map((photo) => photo.id);
+              setSelectedIds((current) => ids.every((id) => current.includes(id)) ? current.filter((id) => !ids.includes(id)) : [...new Set([...current, ...ids])]);
+            }}>{pagePhotos.every((photo) => selectedIds.includes(photo.id)) ? "Desmarcar página" : "Selecionar página"}</button>
+            <span role="status">{selectedIds.length} selecionada(s)</span>
+            <button className="gallery-delete-selected" disabled={deleting || !selectedIds.length} onClick={() => void deleteSelected()}>{deleting ? "Apagando…" : `Apagar (${selectedIds.length})`}</button>
+          </>}
+        </div>}
+
         {loading ? <div className="gallery-status">Revelando momentos…</div> : visiblePhotos.length === 0 ? (
           <div className="gallery-empty"><span>✦</span><h3>{mobileTab === "mine" ? "Você ainda não publicou fotos aqui." : "O primeiro registro pode ser seu."}</h3><p>As fotos publicadas durante a festa aparecerão aqui.</p></div>
         ) : (
           <div className="gallery-grid">
             {pagePhotos.map((photo, index) => (
-              <button className={`gallery-photo${mobileTab === "wall" && index === 0 ? " gallery-photo-featured" : ""}`} key={photo.id} onClick={() => setViewer(photo)} style={{ "--delay": `${Math.min(index, 12) * 45}ms` } as React.CSSProperties}>
+              <button className={`gallery-photo${mobileTab === "wall" && index === 0 ? " gallery-photo-featured" : ""}${mobileTab === "mine" && selecting && selectedIds.includes(photo.id) ? " gallery-photo-selected" : ""}`} key={photo.id} disabled={deleting} aria-pressed={mobileTab === "mine" && selecting ? selectedIds.includes(photo.id) : undefined} aria-label={mobileTab === "mine" && selecting ? `${selectedIds.includes(photo.id) ? "Desmarcar" : "Selecionar"} foto de ${photo.authorName}${photo.caption ? `: ${photo.caption}` : ""}` : undefined} onClick={() => {
+                if (mobileTab === "mine" && selecting) setSelectedIds((ids) => ids.includes(photo.id) ? ids.filter((id) => id !== photo.id) : [...ids, photo.id]);
+                else setViewer(photo);
+              }} style={{ "--delay": `${Math.min(index, 12) * 45}ms` } as React.CSSProperties}>
+                {mobileTab === "mine" && selecting && <span className="gallery-selection-check" aria-hidden="true">{selectedIds.includes(photo.id) ? "✓" : ""}</span>}
                 {mobileTab === "wall" && index === 0 && <span className="gallery-featured-label">{currentPage === 1 ? "Último instante" : "Do nosso álbum"}</span>}
                 <img src={photoUrl(photo.id)} alt={photo.caption || `Foto publicada por ${photo.authorName}`} loading="lazy" />
                 <span className="gallery-photo-info"><strong>{photo.authorName}</strong>{photo.caption && <small>{photo.caption}</small>}<time>{formatDate(photo.createdAt)}</time></span>
