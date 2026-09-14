@@ -35,6 +35,7 @@ export function GalleryPage() {
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
   const [viewer, setViewer] = useState<GalleryPhoto | null>(null);
+  const [mobileTab, setMobileTab] = useState<"wall" | "upload">("wall");
   const fileInput = useRef<HTMLInputElement>(null);
   const preview = useMemo(
     () => (selectedFile ? URL.createObjectURL(selectedFile) : ""),
@@ -90,6 +91,7 @@ export function GalleryPage() {
       setCaption("");
       if (fileInput.current) fileInput.current.value = "";
       setSuccess("Sua foto entrou no mural ✦");
+      setMobileTab("wall");
       await loadPhotos(true);
     } catch (err) {
       const message = axios.isAxiosError(err) ? err.response?.data?.message : null;
@@ -100,7 +102,12 @@ export function GalleryPage() {
   }
 
   return (
-    <main className="gallery-page">
+    <main className={`gallery-page gallery-tab-${mobileTab}`}>
+      <header className="gallery-app-header">
+        <a href="/" aria-label="Voltar ao convite" className="gallery-app-mark">AC</a>
+        <div><strong>Ana Clara</strong><span>Memórias dos 15</span></div>
+        <span className="gallery-app-live"><i /> Ao vivo</span>
+      </header>
       <header className="gallery-hero">
         <a href="/" className="gallery-back" aria-label="Voltar ao convite">AC</a>
         <div>
@@ -114,6 +121,7 @@ export function GalleryPage() {
       </header>
 
       <section className="gallery-upload" aria-label="Publicar foto">
+        <div className="gallery-app-compose-heading"><span>UM INSTANTE, PARA SEMPRE</span><h2>Compartilhe sua noite</h2><p>Escolha sua foto favorita e faça parte dessa memória.</p></div>
         <form onSubmit={publish}>
           <button
             type="button"
@@ -142,6 +150,8 @@ export function GalleryPage() {
       </section>
 
       <section className="gallery-wall">
+        {success && <p className="gallery-app-notice" role="status">{success}</p>}
+        {error && mobileTab === "wall" && <p className="gallery-app-notice" role="alert">{error}</p>}
         <div className="gallery-wall-heading">
           <div><span>Mural ao vivo</span><h2>Momentos da noite</h2></div>
           <p><i /> {photos.length} {photos.length === 1 ? "registro" : "registros"}</p>
@@ -160,6 +170,16 @@ export function GalleryPage() {
           </div>
         )}
       </section>
+
+      <nav className="gallery-app-nav" aria-label="Navegação da galeria">
+        <button aria-current={mobileTab === "wall" ? "page" : undefined} onClick={() => { setMobileTab("wall"); window.scrollTo({ top: 0 }); }}>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="2" /><rect x="14" y="3" width="7" height="7" rx="2" /><rect x="3" y="14" width="7" height="7" rx="2" /><rect x="14" y="14" width="7" height="7" rx="2" /></svg><span>Mural</span>
+        </button>
+        <button aria-current={mobileTab === "upload" ? "page" : undefined} onClick={() => { setMobileTab("upload"); window.scrollTo({ top: 0 }); }}>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5l2-2h4l2 2h4a1 1 0 011 1v14H3V6a1 1 0 011-1z" /><circle cx="12" cy="12" r="4" /></svg><span>Publicar foto</span>
+        </button>
+        <a href="/"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2" /><path d="M3 6l9 7 9-7" /></svg><span>Convite</span></a>
+      </nav>
 
       {viewer && <div className="gallery-lightbox" role="dialog" aria-modal="true" onClick={() => setViewer(null)}>
         <button className="gallery-lightbox-close" onClick={() => setViewer(null)} aria-label="Fechar">×</button>
