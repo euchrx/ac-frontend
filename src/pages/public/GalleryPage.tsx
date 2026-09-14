@@ -3,6 +3,7 @@ import axios from "axios";
 
 import { api } from "../../services/api";
 import { Toast } from "../../components/Toast";
+import "./gallery-controls.css";
 
 type GalleryPhoto = {
   id: string;
@@ -173,11 +174,6 @@ export function GalleryPage() {
           setIsAdmin(false);
         }}>Sair</button>
       </div>}
-      <header className="gallery-app-header">
-        <a href="/" aria-label="Voltar ao convite" className="gallery-app-mark">AC</a>
-        <div><strong>Ana Clara</strong><span>Memórias dos 15</span></div>
-        <span className="gallery-app-live"><i /> Ao vivo</span>
-      </header>
       <header className="gallery-hero">
         <a href="/" className="gallery-back" aria-label="Voltar ao convite">AC</a>
         <div>
@@ -220,10 +216,9 @@ export function GalleryPage() {
       <section className="gallery-wall">
         <div className="gallery-wall-heading">
           <div><span>{mobileTab === "mine" ? "Seus registros" : "Mural ao vivo"}</span><h2>{mobileTab === "mine" ? "Minhas fotos" : "Momentos da noite"}</h2></div>
-          <p><i /> {visiblePhotos.length} {visiblePhotos.length === 1 ? "registro" : "registros"}</p>
+          <p className="gallery-record-count"><strong>{visiblePhotos.length}</strong><span>{visiblePhotos.length === 1 ? "registro" : "registros"}</span></p>
         </div>
 
-        {mobileTab === "mine" && <p className="gallery-owner-note">Fotos publicadas neste navegador. Toque em uma foto para abrir e apagar.</p>}
         {loading ? <div className="gallery-status">Revelando momentos…</div> : visiblePhotos.length === 0 ? (
           <div className="gallery-empty"><span>✦</span><h3>{mobileTab === "mine" ? "Você ainda não publicou fotos aqui." : "O primeiro registro pode ser seu."}</h3><p>As fotos publicadas durante a festa aparecerão aqui.</p></div>
         ) : (

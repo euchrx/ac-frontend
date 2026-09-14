@@ -1,0 +1,114 @@
+/* Controles da galeria inspirados no iOS. */
+.gallery-page .gallery-wall-heading {
+  flex-direction:column;
+  align-items:flex-start;
+  gap:16px;
+}
+.gallery-page .gallery-wall-heading > .gallery-record-count {
+  align-self:flex-start;
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  margin:0;
+  padding:7px 12px;
+  border:1px solid rgba(190,212,237,.14);
+  border-radius:999px;
+  background:rgba(165,195,226,.065);
+  color:#a6b9ce;
+  white-space:nowrap;
+}
+.gallery-page .gallery-record-count strong {
+  color:#e6eff9;
+  font-size:13px;
+  font-weight:600;
+  font-variant-numeric:tabular-nums;
+}
+.gallery-page .gallery-record-count span {
+  color:inherit;
+  font-size:11px;
+  letter-spacing:0;
+  text-transform:none;
+}
+.gallery-page button {
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+.gallery-page .gallery-cta,
+.gallery-page .gallery-fields button,
+.gallery-page .gallery-pagination button,
+.gallery-page .gallery-admin-access button,
+.gallery-page .gallery-lightbox-close,
+.gallery-page .gallery-lightbox .danger-button {
+  min-height: 48px;
+  border-radius: 18px;
+  font-family: -apple-system, BlinkMacSystemFont, "Inter", sans-serif;
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: -.025em;
+  transition: transform .16s ease, filter .16s ease, background .16s ease;
+}
+.gallery-page .gallery-cta,
+.gallery-page .gallery-fields button {
+  min-height: 54px;
+  border: 1px solid rgba(255,255,255,.62);
+  color: #0a2139;
+  background: linear-gradient(165deg, #f8fbff 0%, #d5e0ec 65%, #becedf 100%);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.8), 0 6px 18px rgba(0,0,0,.16);
+}
+.gallery-page .gallery-pagination button,
+.gallery-page .gallery-admin-access button,
+.gallery-page .gallery-lightbox-close {
+  color: #d7eaff;
+  border: 1px solid rgba(200,223,249,.16);
+  background: rgba(146,180,218,.12);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.08);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+}
+.gallery-page .gallery-admin-access button { min-height:44px; padding:8px 18px; border-radius:999px; font-size:13px; }
+.gallery-page .gallery-pagination button { padding:0 18px; font-size:13px; }
+.gallery-page .gallery-lightbox-close { width:48px; border-radius:50%; font-size:28px; font-weight:400; }
+.gallery-page .gallery-lightbox .danger-button { color:#ffb7bb; border:1px solid rgba(255,120,132,.18); background:rgba(255,85,108,.12); }
+.gallery-page button:disabled { opacity:.38; box-shadow:none; }
+.gallery-page .gallery-cta:active:not(:disabled),
+.gallery-page .gallery-fields button:active:not(:disabled),
+.gallery-page .gallery-pagination button:active:not(:disabled),
+.gallery-page .gallery-admin-access button:active:not(:disabled),
+.gallery-page .gallery-lightbox button:active:not(:disabled) { transform:scale(.97); filter:brightness(.88); }
+.gallery-page .gallery-picker { border-style:solid; border-color:rgba(183,208,237,.2); background:linear-gradient(150deg,rgba(169,195,224,.1),rgba(100,144,190,.035)); box-shadow:inset 0 1px 0 rgba(255,255,255,.06); border-radius:24px; }
+.gallery-page button:focus-visible { outline:2px solid #b9d9ff; outline-offset:4px; }
+@media (max-width:760px) {
+  .gallery-page { padding-bottom:calc(108px + env(safe-area-inset-bottom)); }
+  .gallery-page .gallery-app-nav {
+    inset:auto 12px calc(10px + env(safe-area-inset-bottom));
+    padding:6px;
+    gap:5px;
+    border:1px solid rgba(205,225,248,.2);
+    border-radius:30px;
+    background:rgba(13,32,53,.88);
+    box-shadow:0 12px 40px rgba(0,0,0,.32), inset 0 1px 0 rgba(255,255,255,.1);
+    backdrop-filter:blur(28px) saturate(150%);
+    -webkit-backdrop-filter:blur(28px) saturate(150%);
+  }
+  .gallery-page .gallery-app-nav button {
+    min-height:58px;
+    border-radius:24px;
+    gap:5px;
+    color:#9fb1c6;
+    font-family:-apple-system,BlinkMacSystemFont,"Inter",sans-serif;
+    font-size:10px;
+    font-weight:500;
+    transition:background .18s ease,transform .16s ease,color .18s ease;
+  }
+  .gallery-page .gallery-app-nav button[aria-current="page"] {
+    color:#edf6ff;
+    background:linear-gradient(150deg,rgba(206,224,247,.22),rgba(156,191,232,.11));
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.12);
+  }
+  .gallery-page .gallery-app-nav button:active { transform:scale(.95); background:rgba(190,213,240,.16); }
+  .gallery-page .gallery-app-nav svg { width:23px; height:23px; stroke-width:1.7; }
+}
+@media (prefers-reduced-motion:reduce) {
+  .gallery-page button { transition:none !important; }
+  .gallery-page button:active { transform:none !important; }
+}
