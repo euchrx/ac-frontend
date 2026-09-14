@@ -2933,6 +2933,8 @@ button:disabled {
 @media(max-width:380px){.gallery-hero h1{font-size:52px}.gallery-grid{column-gap:7px}.gallery-photo{margin-bottom:7px}.gallery-photo-info time{display:none}}
 @media(prefers-reduced-motion:reduce){.gallery-photo{animation:none}.gallery-photo img{transition:none}}
 
+.gallery-owner-note { margin-bottom:20px; color:#9cabbc; font-size:12px; line-height:1.6; }
+.gallery-lightbox .danger-button { margin-top:20px; }
 .gallery-app-header,.gallery-app-nav,.gallery-app-compose-heading,.gallery-app-notice { display: none; }
 @media (max-width:760px) {
   .gallery-page { min-height:100dvh; padding-bottom:calc(88px + env(safe-area-inset-bottom)); }
@@ -2944,7 +2946,7 @@ button:disabled {
   .gallery-app-header div span { font-size:10px; color:#91a2b5; letter-spacing:.06em; }
   .gallery-app-live { display:flex; align-items:center; gap:6px; margin-left:auto; color:#c0d1e2; font-size:10px; }
   .gallery-app-live i { width:6px; height:6px; border-radius:50%; background:#b8d4ee; box-shadow:0 0 0 4px rgba(184,212,238,.08); }
-  .gallery-tab-wall .gallery-upload,.gallery-tab-upload .gallery-wall { display:none; }
+  .gallery-tab-wall .gallery-upload,.gallery-tab-mine .gallery-upload,.gallery-tab-upload .gallery-wall { display:none; }
   .gallery-wall { margin:0 auto; padding:26px 0 10px; }
   .gallery-wall-heading { gap:12px; padding:0 7px; margin-bottom:22px; flex-direction:row; align-items:flex-end; }
   .gallery-wall-heading h2 { font-size:34px; line-height:1; }
