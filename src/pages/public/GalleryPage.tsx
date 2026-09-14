@@ -215,7 +215,7 @@ export function GalleryPage() {
 
       <section className="gallery-wall">
         <div className="gallery-wall-heading">
-          <div><span>{mobileTab === "mine" ? "Seus registros" : "Mural ao vivo"}</span><h2>{mobileTab === "mine" ? "Minhas fotos" : "Momentos da noite"}</h2></div>
+          <div><span>{mobileTab === "mine" ? "Seus registros" : "Mural ao vivo · Ana Clara XV"}</span><h2>{mobileTab === "mine" ? "Minhas fotos" : <>Uma noite.<br /><em>Mil memórias.</em></>}</h2>{mobileTab === "wall" && <p className="gallery-editorial-copy">Cada olhar, um pedaço da nossa história.</p>}</div>
           <p className="gallery-record-count"><strong>{visiblePhotos.length}</strong><span>{visiblePhotos.length === 1 ? "registro" : "registros"}</span></p>
         </div>
 
@@ -224,7 +224,8 @@ export function GalleryPage() {
         ) : (
           <div className="gallery-grid">
             {pagePhotos.map((photo, index) => (
-              <button className="gallery-photo" key={photo.id} onClick={() => setViewer(photo)} style={{ "--delay": `${Math.min(index, 12) * 45}ms` } as React.CSSProperties}>
+              <button className={`gallery-photo${mobileTab === "wall" && index === 0 ? " gallery-photo-featured" : ""}`} key={photo.id} onClick={() => setViewer(photo)} style={{ "--delay": `${Math.min(index, 12) * 45}ms` } as React.CSSProperties}>
+                {mobileTab === "wall" && index === 0 && <span className="gallery-featured-label">{currentPage === 1 ? "Último instante" : "Do nosso álbum"}</span>}
                 <img src={photoUrl(photo.id)} alt={photo.caption || `Foto publicada por ${photo.authorName}`} loading="lazy" />
                 <span className="gallery-photo-info"><strong>{photo.authorName}</strong>{photo.caption && <small>{photo.caption}</small>}<time>{formatDate(photo.createdAt)}</time></span>
               </button>
