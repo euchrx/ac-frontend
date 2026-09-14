@@ -9,6 +9,7 @@ import { AdminLoginPage } from "../pages/admin/AdminLoginPage";
 import { GuestPage } from "../pages/guest/GuestPage";
 import { NotFoundPage } from "../pages/NotFoundPage";
 import { InvitePage } from "../pages/public/InvitePage";
+import { GalleryPage } from "../pages/public/GalleryPage";
 
 export const router = createBrowserRouter([
   {
@@ -18,6 +19,10 @@ export const router = createBrowserRouter([
   {
     path: "/convidado/*",
     element: <GuestPage />,
+  },
+  {
+    path: "/galeria",
+    element: <GalleryPage />,
   },
   {
     path: "/admin/login",
