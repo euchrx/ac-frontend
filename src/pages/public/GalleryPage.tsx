@@ -2,6 +2,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import axios from "axios";
 
 import { api } from "../../services/api";
+import { Toast } from "../../components/Toast";
 
 type GalleryPhoto = {
   id: string;
@@ -41,8 +42,15 @@ export function GalleryPage() {
   const [caption, setCaption] = useState("");
   const [loading, setLoading] = useState(true);
   const [sending, setSending] = useState(false);
-  const [error, setError] = useState("");
-  const [success, setSuccess] = useState("");
+  const [toast, setToast] = useState<{ id: number; message: string; kind: "success" | "error" } | null>(null);
+  const toastId = useRef(0);
+  const closeToast = useCallback(() => setToast(null), []);
+  const setError = useCallback((message: string) => {
+    if (message) setToast({ id: ++toastId.current, message, kind: "error" });
+  }, []);
+  const setSuccess = useCallback((message: string) => {
+    if (message) setToast({ id: ++toastId.current, message, kind: "success" });
+  }, []);
   const [viewer, setViewer] = useState<GalleryPhoto | null>(null);
   const [mobileTab, setMobileTab] = useState<"wall" | "upload" | "mine">("wall");
   const [myPhotos, setMyPhotos] = useState<GalleryPhoto[]>([]);
@@ -83,7 +91,7 @@ export function GalleryPage() {
     } finally {
       if (!quiet) setLoading(false);
     }
-  }, []);
+  }, [setError]);
 
   useEffect(() => {
     const initialLoad = window.setTimeout(() => void loadPhotos(), 0);
@@ -138,7 +146,7 @@ export function GalleryPage() {
       setMyPhotos((items) => items.filter((item) => item.id !== photo.id));
       setSuccess("Foto apagada do mural.");
     } catch {
-      window.alert("Não foi possível apagar a foto. Tente novamente.");
+      setError("Não foi possível apagar a foto. Tente novamente.");
     } finally {
       setDeleting(false);
     }
@@ -157,6 +165,7 @@ export function GalleryPage() {
 
   return (
     <main className={`gallery-page gallery-tab-${mobileTab}`}>
+      {toast && <Toast key={toast.id} message={toast.message} kind={toast.kind} onClose={closeToast} />}
       {isAdmin && <div className="gallery-admin-access">
         <span>Acesso administrativo</span>
         <button type="button" onClick={() => {
@@ -206,13 +215,9 @@ export function GalleryPage() {
             <button type="submit" disabled={sending || !selectedFile || !authorName.trim()}>{sending ? "Publicando…" : "Publicar no mural"}</button>
           </div>
         </form>
-        {error && <p className="gallery-message error" role="alert">{error}</p>}
-        {success && <p className="gallery-message success">{success}</p>}
       </section>
 
       <section className="gallery-wall">
-        {success && <p className="gallery-app-notice" role="status">{success}</p>}
-        {error && mobileTab === "wall" && <p className="gallery-app-notice" role="alert">{error}</p>}
         <div className="gallery-wall-heading">
           <div><span>{mobileTab === "mine" ? "Seus registros" : "Mural ao vivo"}</span><h2>{mobileTab === "mine" ? "Minhas fotos" : "Momentos da noite"}</h2></div>
           <p><i /> {visiblePhotos.length} {visiblePhotos.length === 1 ? "registro" : "registros"}</p>
