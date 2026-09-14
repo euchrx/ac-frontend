@@ -1,12 +1,13 @@
 import { useState } from "react";
 import type { FormEvent } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import axios from "axios";
 
 import { loginAdmin } from "../../services/admin";
 
 export function AdminLoginPage() {
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -22,7 +23,7 @@ export function AdminLoginPage() {
       const response = await loginAdmin(email, password);
 
       localStorage.setItem("admin_token", response.accessToken);
-      navigate("/admin", { replace: true });
+      navigate(searchParams.get("returnTo") === "/galeria" ? "/galeria" : "/admin", { replace: true });
     } catch (err: unknown) {
       if (axios.isAxiosError(err)) {
         const message =

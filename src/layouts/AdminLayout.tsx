@@ -20,6 +20,7 @@ export function AdminLayout() {
         </div>
 
         <nav className="admin-navigation">
+          <NavLink to="/galeria" className="admin-link">Galeria de fotos</NavLink>
           <span className="admin-navigation-label">Administração</span>
           <NavLink
             to="/admin"

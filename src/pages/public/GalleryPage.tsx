@@ -47,6 +47,18 @@ export function GalleryPage() {
   const [mobileTab, setMobileTab] = useState<"wall" | "upload" | "mine">("wall");
   const [myPhotos, setMyPhotos] = useState<GalleryPhoto[]>([]);
   const [deleting, setDeleting] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false);
+
+  useEffect(() => {
+    if (!localStorage.getItem("admin_token")) return;
+    let active = true;
+    void api.get("/admin/gallery/access").then(() => {
+      if (active) setIsAdmin(true);
+    }).catch(() => { /* Galeria pública continua disponível. */ });
+    return () => { active = false; };
+  }, []);
+  const [wallPage, setWallPage] = useState(1);
+  const [minePage, setMinePage] = useState(1);
   const fileInput = useRef<HTMLInputElement>(null);
   const preview = useMemo(
     () => (selectedFile ? URL.createObjectURL(selectedFile) : ""),
@@ -105,6 +117,7 @@ export function GalleryPage() {
       if (fileInput.current) fileInput.current.value = "";
       setSuccess("Sua foto entrou no mural ✦");
       setMobileTab("wall");
+      setWallPage(1);
       await loadPhotos(true);
     } catch (err) {
       const message = axios.isAxiosError(err) ? err.response?.data?.message : null;
@@ -118,7 +131,8 @@ export function GalleryPage() {
     if (!window.confirm("Apagar esta foto permanentemente do mural?")) return;
     setDeleting(true);
     try {
-      await api.delete(`/gallery/${photo.id}`, { headers: ownerHeaders() });
+      if (isAdmin) await api.delete(`/admin/gallery/${photo.id}`);
+      else await api.delete(`/gallery/${photo.id}`, { headers: ownerHeaders() });
       setViewer(null);
       setPhotos((items) => items.filter((item) => item.id !== photo.id));
       setMyPhotos((items) => items.filter((item) => item.id !== photo.id));
@@ -131,9 +145,21 @@ export function GalleryPage() {
   }
 
   const visiblePhotos = mobileTab === "mine" ? myPhotos : photos;
+  const totalPages = Math.max(1, Math.ceil(visiblePhotos.length / 50));
+  const currentPage = Math.min(mobileTab === "mine" ? minePage : wallPage, totalPages);
+  const pagePhotos = visiblePhotos.slice((currentPage - 1) * 50, currentPage * 50);
+
+  function changePage(page: number) {
+    if (mobileTab === "mine") setMinePage(page);
+    else setWallPage(page);
+    document.querySelector(".gallery-wall")?.scrollIntoView({ block: "start" });
+  }
 
   return (
     <main className={`gallery-page gallery-tab-${mobileTab}`}>
+      <div className="gallery-admin-access">
+        {isAdmin ? <><span>Administração · você pode apagar qualquer foto</span><button onClick={() => { localStorage.removeItem("admin_token"); setIsAdmin(false); }}>Sair</button></> : <a href="/admin/login?returnTo=/galeria">Acesso administrativo</a>}
+      </div>
       <header className="gallery-app-header">
         <a href="/" aria-label="Voltar ao convite" className="gallery-app-mark">AC</a>
         <div><strong>Ana Clara</strong><span>Memórias dos 15</span></div>
@@ -193,7 +219,7 @@ export function GalleryPage() {
           <div className="gallery-empty"><span>✦</span><h3>{mobileTab === "mine" ? "Você ainda não publicou fotos aqui." : "O primeiro registro pode ser seu."}</h3><p>As fotos publicadas durante a festa aparecerão aqui.</p></div>
         ) : (
           <div className="gallery-grid">
-            {visiblePhotos.map((photo, index) => (
+            {pagePhotos.map((photo, index) => (
               <button className="gallery-photo" key={photo.id} onClick={() => setViewer(photo)} style={{ "--delay": `${Math.min(index, 12) * 45}ms` } as React.CSSProperties}>
                 <img src={photoUrl(photo.id)} alt={photo.caption || `Foto publicada por ${photo.authorName}`} loading="lazy" />
                 <span className="gallery-photo-info"><strong>{photo.authorName}</strong>{photo.caption && <small>{photo.caption}</small>}<time>{formatDate(photo.createdAt)}</time></span>
@@ -202,6 +228,12 @@ export function GalleryPage() {
           </div>
         )}
       </section>
+
+      {mobileTab !== "upload" && totalPages > 1 && <nav className="gallery-pagination" aria-label="Páginas de fotos">
+        <button disabled={currentPage <= 1} onClick={() => changePage(currentPage - 1)}>← Anterior</button>
+        <span aria-live="polite">Página {currentPage} de {totalPages}</span>
+        <button disabled={currentPage >= totalPages} onClick={() => changePage(currentPage + 1)}>Próxima →</button>
+      </nav>}
 
       <nav className="gallery-app-nav" aria-label="Navegação da galeria">
         <button aria-current={mobileTab === "wall" ? "page" : undefined} onClick={() => { setMobileTab("wall"); window.scrollTo({ top: 0 }); }}>
@@ -217,7 +249,7 @@ export function GalleryPage() {
         <button className="gallery-lightbox-close" onClick={() => setViewer(null)} aria-label="Fechar">×</button>
         <div onClick={(e) => e.stopPropagation()}>
           <img src={photoUrl(viewer.id)} alt={viewer.caption || `Foto de ${viewer.authorName}`} />
-          <footer><strong>{viewer.authorName}</strong>{viewer.caption && <p>{viewer.caption}</p>}<time>{formatDate(viewer.createdAt)}</time>{myPhotos.some((photo) => photo.id === viewer.id) && <button className="danger-button" disabled={deleting} onClick={() => void deletePhoto(viewer)}>{deleting ? "Apagando…" : "Apagar foto"}</button>}</footer>
+          <footer><strong>{viewer.authorName}</strong>{viewer.caption && <p>{viewer.caption}</p>}<time>{formatDate(viewer.createdAt)}</time>{(isAdmin || myPhotos.some((photo) => photo.id === viewer.id)) && <button className="danger-button" disabled={deleting} onClick={() => void deletePhoto(viewer)}>{deleting ? "Apagando…" : "Apagar foto"}</button>}</footer>
         </div>
       </div>}
     </main>
