@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import axios from "axios";
+import { GalleryImage, GalleryLoading } from "./GalleryLoading";
 
 import { api } from "../../services/api";
 import { Toast } from "../../components/Toast";
@@ -45,6 +46,8 @@ export function GalleryPage() {
   const [authorName, setAuthorName] = useState(() => localStorage.getItem("gallery_author") ?? "");
   const [caption, setCaption] = useState("");
   const [loading, setLoading] = useState(true);
+  const [loadFailed, setLoadFailed] = useState(false);
+  const [previewReady, setPreviewReady] = useState(false);
   const [sending, setSending] = useState(false);
   const [toast, setToast] = useState<{ id: number; message: string; kind: "success" | "error" } | null>(null);
   const toastId = useRef(0);
@@ -116,14 +119,15 @@ export function GalleryPage() {
   }, [preview]);
 
   const loadPhotos = useCallback(async (quiet = false) => {
+    if (!quiet) { setLoading(true); setLoadFailed(false); }
     try {
-      const { data } = await api.get<GalleryPhoto[]>("/gallery");
+      const { data } = await api.get<GalleryPhoto[]>("/gallery", { timeout: 20000 });
       setPhotos(data);
-      const mine = await api.get<GalleryPhoto[]>("/gallery/mine", { headers: ownerHeaders() });
+      const mine = await api.get<GalleryPhoto[]>("/gallery/mine", { headers: ownerHeaders(), timeout: 20000 });
       setMyPhotos(mine.data);
       if (!quiet) setError("");
     } catch {
-      if (!quiet) setError("Não foi possível carregar as fotos agora.");
+      if (!quiet) { setLoadFailed(true); setError("Não foi possível carregar as fotos agora."); }
     } finally {
       if (!quiet) setLoading(false);
     }
@@ -140,7 +144,7 @@ export function GalleryPage() {
 
   async function publish(event: React.FormEvent) {
     event.preventDefault();
-    if (sending) return;
+    if (sending || !previewReady) return;
     if (!selectedFile || !authorName.trim()) {
       setError("Escolha uma foto e informe seu nome.");
       return;
@@ -155,7 +159,7 @@ export function GalleryPage() {
     form.append("caption", caption.trim());
 
     try {
-      await api.post("/gallery", form, { headers: ownerHeaders() });
+      await api.post("/gallery", form, { headers: ownerHeaders(), timeout: 60000 });
       localStorage.setItem("gallery_author", authorName.trim());
       setSelectedFile(null);
       setCaption("");
@@ -176,8 +180,8 @@ export function GalleryPage() {
     if (!window.confirm("Apagar esta foto permanentemente do mural?")) return;
     setDeleting(true);
     try {
-      if (isAdmin) await api.delete(`/admin/gallery/${photo.id}`);
-      else await api.delete(`/gallery/${photo.id}`, { headers: ownerHeaders() });
+      if (isAdmin) await api.delete(`/admin/gallery/${photo.id}`, { timeout: 20000 });
+      else await api.delete(`/gallery/${photo.id}`, { headers: ownerHeaders(), timeout: 20000 });
       setViewer(null);
       setPhotos((items) => items.filter((item) => item.id !== photo.id));
       setMyPhotos((items) => items.filter((item) => item.id !== photo.id));
@@ -189,6 +193,7 @@ export function GalleryPage() {
     }
   }
 
+  const composing = mobileTab === "mine" && selectedFile !== null;
   const visiblePhotos = mobileTab === "mine" ? myPhotos : photos;
   const totalPages = Math.max(1, Math.ceil(visiblePhotos.length / 50));
   const currentPage = Math.min(mobileTab === "mine" ? minePage : wallPage, totalPages);
@@ -202,6 +207,7 @@ export function GalleryPage() {
 
   return (
     <main className={`gallery-page gallery-tab-${mobileTab}`}>
+      {(loading || sending || deleting) && <div className="gallery-busy-screen" aria-busy="true"><span className="gallery-loading-monogram" aria-hidden="true">AC</span><GalleryLoading label={sending ? "Publicando foto…" : deleting ? "Apagando fotos…" : "Carregando galeria…"} /></div>}
       {toast && <Toast key={toast.id} message={toast.message} kind={toast.kind} onClose={closeToast} />}
       {isAdmin && <div className="gallery-admin-access">
         <span>Acesso administrativo</span>
@@ -231,6 +237,7 @@ export function GalleryPage() {
           if (file.size > 8 * 1024 * 1024) {
             setError("A foto deve ter até 8 MB. Tente uma resolução menor."); return;
           }
+          setPreviewReady(false);
           setSelectedFile(file);
           setMobileTab("mine");
           setSelecting(false);
@@ -243,10 +250,10 @@ export function GalleryPage() {
           {mobileTab === "wall" && <p className="gallery-record-count"><strong>{visiblePhotos.length}</strong><span>{visiblePhotos.length === 1 ? "registro" : "registros"}</span></p>}
         </div>
 
-        {mobileTab === "mine" && <div className="gallery-add-action">
+        {mobileTab === "mine" && !composing && <div className="gallery-add-action">
           <button className="gallery-cta" disabled={sending} onClick={() => fileInput.current?.click()}>
             <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5l2-2h4l2 2h4a1 1 0 011 1v14H3V6a1 1 0 011-1z" /><circle cx="12" cy="12" r="4" /></svg>
-            {selectedFile ? "Tirar outra foto" : "Adicionar fotos"}
+            Adicionar fotos
           </button>
           <p>Tire uma foto e depois adicione seu nome.</p>
         </div>}
@@ -254,17 +261,26 @@ export function GalleryPage() {
           <h3>Sua foto está pronta</h3>
           <p>Confira a foto e complete os detalhes para publicar.</p>
           <form onSubmit={publish} aria-busy={sending}>
-            <img className="gallery-capture-preview" src={preview} alt="Prévia da foto que será publicada" />
+            <GalleryImage className="gallery-capture-preview" src={preview} alt="Prévia da foto que será publicada" eager onReady={() => setPreviewReady(true)} />
             <div className="gallery-fields">
               <label>Seu nome<input required autoComplete="name" disabled={sending} value={authorName} maxLength={60} onChange={(e) => setAuthorName(e.target.value)} placeholder="Como você se chama?" /></label>
               <label>Legenda <span>opcional</span><input disabled={sending} value={caption} maxLength={180} onChange={(e) => setCaption(e.target.value)} placeholder="Escreva sobre esse momento" /></label>
-              <button type="submit" disabled={sending || !authorName.trim()}>{sending ? "Publicando…" : "Publicar foto"}</button>
-              <button className="gallery-cancel" type="button" disabled={sending} onClick={() => { setSelectedFile(null); setCaption(""); }}>Descartar foto</button>
+              <div className="gallery-compose-actions">
+                <button className="gallery-cancel" type="button" disabled={sending} onClick={() => { setSelectedFile(null); setCaption(""); }}>
+                  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18M9 6V3h6v3M5 6l1 15h12l1-15M10 10v7m4-7v7" /></svg><span>Descartar</span>
+                </button>
+                <button className="gallery-cancel" type="button" disabled={sending} onClick={() => fileInput.current?.click()}>
+                  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5l2-2h4l2 2h4a1 1 0 011 1v14H3V6a1 1 0 011-1z" /><circle cx="12" cy="12" r="4" /></svg><span>Tirar outra foto</span>
+                </button>
+                <button type="submit" disabled={sending || !previewReady || !authorName.trim()}>
+                  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12 4 4L19 6" /></svg><span>{sending ? "Publicando…" : "Publicar"}</span>
+                </button>
+              </div>
             </div>
           </form>
         </section>}
 
-        {mobileTab === "mine" && myPhotos.length > 0 && <div className="gallery-selection-toolbar">
+        {!composing && mobileTab === "mine" && myPhotos.length > 0 && <div className="gallery-selection-toolbar">
           <button disabled={deleting} onClick={() => { setSelecting(!selecting); setSelectedIds([]); }}>{selecting ? "Cancelar seleção" : "Selecionar fotos"}</button>
           {selecting && <>
             <button disabled={deleting} onClick={() => {
@@ -276,7 +292,7 @@ export function GalleryPage() {
           </>}
         </div>}
 
-        {loading ? <div className="gallery-status">Carregando fotos…</div> : visiblePhotos.length === 0 ? (
+        {!composing && (loading ? <div className="gallery-status"><GalleryLoading label="Carregando galeria…" /></div> : loadFailed ? <div className="gallery-status"><p>Não foi possível carregar as fotos.</p><button onClick={() => void loadPhotos()}>Tentar novamente</button></div> : visiblePhotos.length === 0 ? (
           <div className="gallery-empty"><p className="gallery-mobile-empty">Nenhuma foto publicada.</p><span>✦</span><h3>{mobileTab === "mine" ? "Você ainda não publicou fotos aqui." : "O primeiro registro pode ser seu."}</h3><p>{mobileTab === "mine" ? "Toque em Adicionar fotos para registrar seu primeiro momento." : "As fotos publicadas durante a festa aparecerão aqui."}</p></div>
         ) : (
           <div className="gallery-grid">
@@ -287,15 +303,15 @@ export function GalleryPage() {
               }} style={{ "--delay": `${Math.min(index, 12) * 45}ms` } as React.CSSProperties}>
                 {mobileTab === "mine" && selecting && <span className="gallery-selection-check" aria-hidden="true">{selectedIds.includes(photo.id) ? "✓" : ""}</span>}
                 {mobileTab === "wall" && index === 0 && <span className="gallery-featured-label">{currentPage === 1 ? "Último instante" : "Do nosso álbum"}</span>}
-                <img src={photoUrl(photo.id)} alt={photo.caption || `Foto publicada por ${photo.authorName}`} loading="lazy" />
+                <GalleryImage src={photoUrl(photo.id)} alt={photo.caption || `Foto publicada por ${photo.authorName}`} eager={index < 4} />
                 <span className="gallery-photo-info"><strong>{photo.authorName}</strong>{photo.caption && <small>{photo.caption}</small>}<time>{formatDate(photo.createdAt)}</time></span>
               </button>
             ))}
           </div>
-        )}
+        ))}
       </section>
 
-      {totalPages > 1 && <nav className="gallery-pagination" aria-label="Páginas de fotos">
+      {!composing && totalPages > 1 && <nav className="gallery-pagination" aria-label="Páginas de fotos">
         <button disabled={currentPage <= 1} onClick={() => changePage(currentPage - 1)}>← Anterior</button>
         <span aria-live="polite">Página {currentPage} de {totalPages}</span>
         <button disabled={currentPage >= totalPages} onClick={() => changePage(currentPage + 1)}>Próxima →</button>
@@ -317,7 +333,7 @@ export function GalleryPage() {
       {viewer && <div className="gallery-lightbox" role="dialog" aria-modal="true" onClick={() => setViewer(null)}>
         <button className="gallery-lightbox-close" onClick={() => setViewer(null)} aria-label="Fechar">×</button>
         <div onClick={(e) => e.stopPropagation()}>
-          <img src={photoUrl(viewer.id)} alt={viewer.caption || `Foto de ${viewer.authorName}`} />
+          <GalleryImage src={photoUrl(viewer.id)} alt={viewer.caption || `Foto de ${viewer.authorName}`} eager />
           <footer><strong>{viewer.authorName}</strong>{viewer.caption && <p>{viewer.caption}</p>}<time>{formatDate(viewer.createdAt)}</time>{(isAdmin || myPhotos.some((photo) => photo.id === viewer.id)) && <button className="danger-button" disabled={deleting} onClick={() => void deletePhoto(viewer)}>{deleting ? "Apagando…" : "Apagar foto"}</button>}</footer>
         </div>
       </div>}

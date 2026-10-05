@@ -1,3 +1,4 @@
+import { GalleryLoading } from "./GalleryLoading";
 import { useRef, useState } from 'react';
 import axios from 'axios';
 import { api } from '../../services/api';
@@ -42,7 +43,7 @@ export function GalleryDownload({ count, notify }: {
       <div><strong>Álbum completo</strong><span>{count} {count === 1 ? 'foto disponível' : 'fotos disponíveis'} · arquivos originais</span></div>
     </div>
     <ul><li>Inclui todas as páginas do mural.</li><li>Fotos organizadas por data, com o nome de quem publicou.</li><li>O download não apaga as fotos da galeria.</li></ul>
-    <button type="button" disabled={preparing || count === 0} onClick={() => void download()}>{preparing ? 'Preparando download…' : 'Baixar todas as fotos em ZIP'}</button>
+    <button type="button" disabled={preparing || count === 0} onClick={() => void download()}>{preparing ? <GalleryLoading label="Preparando download…" /> : 'Baixar todas as fotos em ZIP'}</button>
     <p className="gallery-download-note" role="status">{requested ? 'Confira o andamento no gerenciador de downloads do navegador. Se houver falha ou interrupção, solicite um novo ZIP.' : 'O álbum inclui as fotos disponíveis no início do download. Álbuns grandes podem levar alguns minutos.'}</p>
     <iframe name="gallery-zip-download" title="Download do álbum" hidden />
     <form ref={form} hidden method="POST" target="gallery-zip-download" action={`${String(api.defaults.baseURL).replace(/\/$/, '')}/gallery/export`}>

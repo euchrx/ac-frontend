@@ -64,3 +64,30 @@
   .gallery-page .gallery-empty > p { display:none; }
   .gallery-page .gallery-empty .gallery-mobile-empty { display:block; margin:0; font-family:inherit; font-size:14px; color:#b7c8da; }
 }
+.gallery-page .gallery-compose-actions { grid-column:1/-1; display:grid; grid-template-columns:1fr 1.3fr 1fr; gap:8px; }
+.gallery-page .gallery-fields .gallery-compose-actions button { grid-column:auto; display:flex; align-items:center; justify-content:center; gap:7px; min-width:0; min-height:44px; padding:10px 8px; font-size:13px; border-radius:12px; }
+.gallery-compose-actions svg { width:20px; height:20px; flex-shrink:0; fill:none; stroke:currentColor; stroke-width:1.7; stroke-linecap:round; stroke-linejoin:round; }
+@media(max-width:760px) {
+  .gallery-page .gallery-fields .gallery-compose-actions button { flex-direction:column; gap:5px; padding:8px 4px; font-size:12px; }
+}
+/* Lightweight loading states, animated through the browser's JS animation API. */
+.gallery-loading { display:inline-flex; flex-direction:column; align-items:center; justify-content:center; gap:12px; padding:16px; color:#bfd2e8; font-size:12px; font-weight:400; text-align:center; }
+.gallery-loading-jewel { display:grid; place-items:center; width:42px; height:42px; font-size:30px; color:#e0edfb; text-shadow:0 0 18px rgba(189,214,245,.45); }
+.gallery-busy-screen { position:fixed; inset:0; z-index:1000; display:flex; flex-direction:column; align-items:center; justify-content:center; background:radial-gradient(ellipse at 50% 42%,#142b46 0%,#030e1c 65%); }
+.gallery-loading-monogram { display:grid; place-items:center; width:82px; height:82px; border:1px solid rgba(190,213,240,.28); border-radius:50%; color:#d6e6f7; font-family:"Cormorant Garamond",serif; font-size:34px; }
+.gallery-image-frame { position:relative; display:block; width:100%; overflow:hidden; background:#071626; }
+.gallery-image-loading,.gallery-image-error { min-height:200px; }
+.gallery-image-frame > .gallery-loading,.gallery-image-frame > .gallery-image-error { position:absolute; inset:0; display:flex; align-items:center; justify-content:center; }
+.gallery-image-frame > .gallery-image-error { padding:20px; font-size:12px; color:#b7c8da; text-align:center; }
+.gallery-page .gallery-image-frame img { display:block; }
+.gallery-page .gallery-upload .gallery-image-frame { border-radius:12px; }
+.gallery-page .gallery-upload .gallery-image-loading { min-height:300px; }
+.gallery-page .gallery-lightbox .gallery-image-frame { display:flex; align-items:center; justify-content:center; min-height:240px; }
+.gallery-page .gallery-lightbox .gallery-image-frame img { width:100%; }
+.gallery-status > button { margin-top:16px; min-height:44px; padding:10px 16px; border-radius:12px; color:#d7eaff; background:#19314b; }
+.gallery-download-panel button .gallery-loading { flex-direction:row; padding:0; color:inherit; }
+.gallery-download-panel button .gallery-loading-jewel { width:24px; height:24px; font-size:20px; color:inherit; }
+@media(max-width:760px) {
+  .gallery-page .gallery-photo .gallery-image-frame { aspect-ratio:4/5; min-height:0; }
+  .gallery-page .gallery-photo .gallery-loading { gap:6px; padding:8px; font-size:11px; }
+}
