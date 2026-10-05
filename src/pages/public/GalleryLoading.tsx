@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 
 /** Browser-native animations: no animation library or React updates per frame. */
 export function GalleryLoading({ label = "Carregando foto…" }: { label?: string }) {
@@ -25,25 +25,28 @@ export function GalleryLoading({ label = "Carregando foto…" }: { label?: strin
   </span>;
 }
 
-export function GalleryImage(props: { src: string; alt: string; className?: string; eager?: boolean; onReady?: () => void }) {
+export function GalleryImage(props: { src: string; alt: string; className?: string; eager?: boolean; onReady?: () => void; onLoadingChange?: (loading: boolean) => void }) {
   return <ImageFrame key={props.src} {...props} />;
 }
 
-function ImageFrame({ src, alt, className = "", eager = false, onReady }: { src: string; alt: string; className?: string; eager?: boolean; onReady?: () => void }) {
+function ImageFrame({ src, alt, className = "", eager = false, onReady, onLoadingChange }: { src: string; alt: string; className?: string; eager?: boolean; onReady?: () => void; onLoadingChange?: (loading: boolean) => void }) {
   const frame = useRef<HTMLSpanElement>(null);
   const readyCallback = useRef(onReady);
   useEffect(() => { readyCallback.current = onReady; }, [onReady]);
   const [state, setState] = useState<"loading" | "ready" | "error">("loading");
-  useEffect(() => {
+  useLayoutEffect(() => {
     let active = true;
+    let pending = false;
+    const finish = () => { if (pending) { pending = false; onLoadingChange?.(false); } };
     let started = false;
     let timer: number | undefined;
-    let animation: Animation | undefined;
     const image = new Image();
     const start = () => {
       if (started) return;
       started = true;
-      timer = window.setTimeout(() => { active = false; setState("error"); }, 30000);
+      pending = true;
+      onLoadingChange?.(true);
+      timer = window.setTimeout(() => { active = false; setState("error"); finish(); }, 30000);
       image.onload = async () => {
         try {
           await image.decode();
@@ -55,12 +58,10 @@ function ImageFrame({ src, alt, className = "", eager = false, onReady }: { src:
           frame.current?.appendChild(image);
           setState("ready");
           readyCallback.current?.();
-          if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-            animation = image.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 280, easing: "ease-out" });
-          }
-        } catch { if (active) { window.clearTimeout(timer); setState("error"); } }
+          finish();
+        } catch { if (active) { window.clearTimeout(timer); setState("error"); finish(); } }
       };
-      image.onerror = () => { if (active) { window.clearTimeout(timer); setState("error"); } };
+      image.onerror = () => { if (active) { window.clearTimeout(timer); setState("error"); finish(); } };
       image.src = src;
     };
     const observer = new IntersectionObserver((entries) => {
@@ -68,10 +69,9 @@ function ImageFrame({ src, alt, className = "", eager = false, onReady }: { src:
     }, { rootMargin: "200px" });
     if (eager) start();
     else if (frame.current) observer.observe(frame.current);
-    return () => { active = false; observer.disconnect(); window.clearTimeout(timer); animation?.cancel(); image.onload = null; image.onerror = null; image.remove(); };
-  }, [src, alt, className, eager]);
+    return () => { active = false; observer.disconnect(); window.clearTimeout(timer); finish(); image.onload = null; image.onerror = null; image.remove(); };
+  }, [src, alt, className, eager, onLoadingChange]);
   return <span ref={frame} className={`gallery-image-frame gallery-image-${state}`} aria-busy={state === "loading"}>
-    {state === "loading" && <GalleryLoading />}
     {state === "error" && <span className="gallery-image-error" role="status">Foto indisponível. Tente abrir novamente.</span>}
   </span>;
 }

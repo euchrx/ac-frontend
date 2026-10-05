@@ -41,6 +41,10 @@ function formatDate(value: string) {
 }
 
 export function GalleryPage() {
+  const [pendingImages, setPendingImages] = useState(0);
+  const trackImageLoading = useCallback((busy: boolean) => {
+    setPendingImages((count) => Math.max(0, count + (busy ? 1 : -1)));
+  }, []);
   const [photos, setPhotos] = useState<GalleryPhoto[]>([]);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [authorName, setAuthorName] = useState(() => localStorage.getItem("gallery_author") ?? "");
@@ -207,7 +211,7 @@ export function GalleryPage() {
 
   return (
     <main className={`gallery-page gallery-tab-${mobileTab}`}>
-      {(loading || sending || deleting) && <div className="gallery-busy-screen" aria-busy="true"><span className="gallery-loading-monogram" aria-hidden="true">AC</span><GalleryLoading label={sending ? "Publicando foto…" : deleting ? "Apagando fotos…" : "Carregando galeria…"} /></div>}
+      {(loading || pendingImages > 0 || sending || deleting) && <div className="gallery-busy-screen" aria-busy="true"><span className="gallery-loading-monogram" aria-hidden="true">AC</span><GalleryLoading label={sending ? "Publicando foto…" : deleting ? "Apagando fotos…" : "Carregando galeria…"} /></div>}
       {toast && <Toast key={toast.id} message={toast.message} kind={toast.kind} onClose={closeToast} />}
       {isAdmin && <div className="gallery-admin-access">
         <span>Acesso administrativo</span>
@@ -250,7 +254,7 @@ export function GalleryPage() {
           {mobileTab === "wall" && <p className="gallery-record-count"><strong>{visiblePhotos.length}</strong><span>{visiblePhotos.length === 1 ? "registro" : "registros"}</span></p>}
         </div>
 
-        {mobileTab === "mine" && !composing && <div className="gallery-add-action">
+        {mobileTab === "mine" && !composing && <div className="gallery-add-action gallery-desktop-add">
           <button className="gallery-cta" disabled={sending} onClick={() => fileInput.current?.click()}>
             <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5l2-2h4l2 2h4a1 1 0 011 1v14H3V6a1 1 0 011-1z" /><circle cx="12" cy="12" r="4" /></svg>
             Adicionar fotos
@@ -261,7 +265,7 @@ export function GalleryPage() {
           <h3>Sua foto está pronta</h3>
           <p>Confira a foto e complete os detalhes para publicar.</p>
           <form onSubmit={publish} aria-busy={sending}>
-            <GalleryImage className="gallery-capture-preview" src={preview} alt="Prévia da foto que será publicada" eager onReady={() => setPreviewReady(true)} />
+            <GalleryImage onLoadingChange={trackImageLoading} className="gallery-capture-preview" src={preview} alt="Prévia da foto que será publicada" eager onReady={() => setPreviewReady(true)} />
             <div className="gallery-fields">
               <label>Seu nome<input required autoComplete="name" disabled={sending} value={authorName} maxLength={60} onChange={(e) => setAuthorName(e.target.value)} placeholder="Como você se chama?" /></label>
               <label>Legenda <span>opcional</span><input disabled={sending} value={caption} maxLength={180} onChange={(e) => setCaption(e.target.value)} placeholder="Escreva sobre esse momento" /></label>
@@ -292,7 +296,7 @@ export function GalleryPage() {
           </>}
         </div>}
 
-        {!composing && (loading ? <div className="gallery-status"><GalleryLoading label="Carregando galeria…" /></div> : loadFailed ? <div className="gallery-status"><p>Não foi possível carregar as fotos.</p><button onClick={() => void loadPhotos()}>Tentar novamente</button></div> : visiblePhotos.length === 0 ? (
+        {!composing && (loading ? null : loadFailed ? <div className="gallery-status"><p>Não foi possível carregar as fotos.</p><button onClick={() => void loadPhotos()}>Tentar novamente</button></div> : visiblePhotos.length === 0 ? (
           <div className="gallery-empty"><p className="gallery-mobile-empty">Nenhuma foto publicada.</p><span>✦</span><h3>{mobileTab === "mine" ? "Você ainda não publicou fotos aqui." : "O primeiro registro pode ser seu."}</h3><p>{mobileTab === "mine" ? "Toque em Adicionar fotos para registrar seu primeiro momento." : "As fotos publicadas durante a festa aparecerão aqui."}</p></div>
         ) : (
           <div className="gallery-grid">
@@ -303,7 +307,7 @@ export function GalleryPage() {
               }} style={{ "--delay": `${Math.min(index, 12) * 45}ms` } as React.CSSProperties}>
                 {mobileTab === "mine" && selecting && <span className="gallery-selection-check" aria-hidden="true">{selectedIds.includes(photo.id) ? "✓" : ""}</span>}
                 {mobileTab === "wall" && index === 0 && <span className="gallery-featured-label">{currentPage === 1 ? "Último instante" : "Do nosso álbum"}</span>}
-                <GalleryImage src={photoUrl(photo.id)} alt={photo.caption || `Foto publicada por ${photo.authorName}`} eager={index < 4} />
+                <GalleryImage onLoadingChange={trackImageLoading} src={photoUrl(photo.id)} alt={photo.caption || `Foto publicada por ${photo.authorName}`} eager />
                 <span className="gallery-photo-info"><strong>{photo.authorName}</strong>{photo.caption && <small>{photo.caption}</small>}<time>{formatDate(photo.createdAt)}</time></span>
               </button>
             ))}
@@ -321,6 +325,10 @@ export function GalleryPage() {
         <button aria-current={mobileTab === "wall" ? "page" : undefined} onClick={() => {  setMobileTab("wall"); window.scrollTo({ top: 0 }); }}>
           <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="2" /><rect x="14" y="3" width="7" height="7" rx="2" /><rect x="3" y="14" width="7" height="7" rx="2" /><rect x="14" y="14" width="7" height="7" rx="2" /></svg><span>Galeria</span>
         </button>
+        <button className="gallery-nav-capture" type="button" disabled={sending || deleting} aria-label="Adicionar fotos" onClick={() => fileInput.current?.click()}>
+          <span className="gallery-nav-capture-disc"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5l2-2h4l2 2h4a1 1 0 011 1v14H3V6a1 1 0 011-1z" /><circle cx="12" cy="12" r="4" /></svg></span>
+          <span>Adicionar</span>
+        </button>
         <button aria-current={mobileTab === "mine" ? "page" : undefined} onClick={() => {  setMobileTab("mine"); window.scrollTo({ top: 0 }); }}><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4" /><path d="M4 21v-2a8 8 0 0116 0v2" /></svg><span>Minhas fotos</span></button>
 
       </nav>
@@ -333,7 +341,7 @@ export function GalleryPage() {
       {viewer && <div className="gallery-lightbox" role="dialog" aria-modal="true" onClick={() => setViewer(null)}>
         <button className="gallery-lightbox-close" onClick={() => setViewer(null)} aria-label="Fechar">×</button>
         <div onClick={(e) => e.stopPropagation()}>
-          <GalleryImage src={photoUrl(viewer.id)} alt={viewer.caption || `Foto de ${viewer.authorName}`} eager />
+          <GalleryImage onLoadingChange={trackImageLoading} src={photoUrl(viewer.id)} alt={viewer.caption || `Foto de ${viewer.authorName}`} eager />
           <footer><strong>{viewer.authorName}</strong>{viewer.caption && <p>{viewer.caption}</p>}<time>{formatDate(viewer.createdAt)}</time>{(isAdmin || myPhotos.some((photo) => photo.id === viewer.id)) && <button className="danger-button" disabled={deleting} onClick={() => void deletePhoto(viewer)}>{deleting ? "Apagando…" : "Apagar foto"}</button>}</footer>
         </div>
       </div>}
