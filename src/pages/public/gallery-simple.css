@@ -101,3 +101,28 @@
   .gallery-page .gallery-app-nav .gallery-nav-capture svg { width:24px; height:24px; stroke-width:1.7; }
   .gallery-page .gallery-app-nav .gallery-nav-capture:active { background:transparent; }
 }
+/* Edge-to-edge photo detail on mobile, with the original aspect ratio. */
+@media(max-width:760px) {
+  .gallery-page .gallery-lightbox { display:block; padding:calc(60px + env(safe-area-inset-top)) 0 env(safe-area-inset-bottom); overflow-y:auto; overscroll-behavior:contain; background:#030e1c; }
+  .gallery-page .gallery-lightbox > div { display:flex; flex-direction:column; width:100%; max-width:none; max-height:none; overflow:visible; border:0; border-radius:0; background:#030e1c; }
+  .gallery-page .gallery-lightbox .gallery-image-frame { width:100%; min-height:0; border-radius:0; }
+  .gallery-page .gallery-lightbox .gallery-image-frame img { width:100%; height:auto; max-height:none; object-fit:contain; }
+  .gallery-page .gallery-lightbox footer { align-self:stretch; padding:16px 18px 24px; }
+  .gallery-page .gallery-lightbox footer strong { font-size:24px; }
+  .gallery-page .gallery-lightbox footer p { margin-top:8px; font-size:14px; }
+  .gallery-page .gallery-lightbox footer time { margin-top:12px; font-size:11px; }
+  .gallery-page .gallery-lightbox-close { top:calc(6px + env(safe-area-inset-top)); right:10px; }
+}
+/* Discourage saving from the visitor UI; public images are not copy-proof. */
+.gallery-visitor .gallery-image-frame,
+.gallery-visitor .gallery-image-frame img,
+.gallery-visitor .gallery-loading,
+.gallery-visitor .gallery-loading-monogram {
+  -webkit-touch-callout:none;
+  -webkit-user-select:none;
+  user-select:none;
+}
+.gallery-visitor .gallery-image-frame img {
+  -webkit-user-drag:none;
+  pointer-events:none;
+}

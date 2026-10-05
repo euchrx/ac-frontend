@@ -18,7 +18,7 @@ export function GalleryDownload({ count, notify }: {
     busy.current = true;
     setPreparing(true);
     try {
-      const { data } = await api.post<{ ticket: string }>('/admin/gallery/export-ticket');
+      const { data } = await api.post<{ ticket: string }>('/admin/gallery/export-ticket', undefined, { timeout: 20000 });
       if (!ticketField.current || !form.current) return;
       ticketField.current.value = data.ticket;
       form.current.submit();
@@ -42,7 +42,7 @@ export function GalleryDownload({ count, notify }: {
       <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12m-5-5 5 5 5-5M4 16v5h16v-5" /></svg>
       <div><strong>Álbum completo</strong><span>{count} {count === 1 ? 'foto disponível' : 'fotos disponíveis'} · arquivos originais</span></div>
     </div>
-    <ul><li>Inclui todas as páginas do mural.</li><li>Fotos organizadas por data, com o nome de quem publicou.</li><li>O download não apaga as fotos da galeria.</li></ul>
+    <ul><li>Inclui todas as páginas da galeria.</li><li>Fotos organizadas por data, com o nome de quem publicou.</li><li>O download não apaga as fotos da galeria.</li></ul>
     <button type="button" disabled={preparing || count === 0} onClick={() => void download()}>{preparing ? <GalleryLoading label="Preparando download…" /> : 'Baixar todas as fotos em ZIP'}</button>
     <p className="gallery-download-note" role="status">{requested ? 'Confira o andamento no gerenciador de downloads do navegador. Se houver falha ou interrupção, solicite um novo ZIP.' : 'O álbum inclui as fotos disponíveis no início do download. Álbuns grandes podem levar alguns minutos.'}</p>
     <iframe name="gallery-zip-download" title="Download do álbum" hidden />

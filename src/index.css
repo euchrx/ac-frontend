@@ -2883,7 +2883,7 @@ button:disabled {
   border-color: rgba(255, 255, 255, 0.08);
 }
 
-/* Galeria pública — mural colaborativo */
+/* Galeria pública — galeria colaborativa */
 .gallery-page { min-height: 100vh; color: #f4f7fa; background: radial-gradient(circle at 12% 35%,rgba(107,137,172,.1),transparent 28%),linear-gradient(155deg,#020914 0%,#07182b 52%,#04111f 100%); }
 .gallery-hero { min-height: 640px; position: relative; display: flex; flex-direction: column; justify-content: flex-end; padding: 48px clamp(22px, 7vw, 110px) 74px; overflow: hidden; color: #fafcff; background: radial-gradient(circle at 78% 22%, rgba(155,178,204,.2), transparent 28%), linear-gradient(145deg,#020914,#0b2138 55%,#030c17); }
 .gallery-hero::before { content: "15"; position: absolute; right: -2vw; top: -14vh; color: rgba(255,255,255,.035); font-family: "Cormorant Garamond",serif; font-size: min(70vw,700px); line-height: 1; }

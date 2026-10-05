@@ -63,6 +63,19 @@ export function GalleryPage() {
     if (message) setToast({ id: ++toastId.current, message, kind: "success" });
   }, []);
   const [viewer, setViewer] = useState<GalleryPhoto | null>(null);
+  useEffect(() => {
+    if (!viewer) return;
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    const closeOnEscape = (event: KeyboardEvent) => {
+      if (event.key === "Escape") setViewer(null);
+    };
+    window.addEventListener("keydown", closeOnEscape);
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      window.removeEventListener("keydown", closeOnEscape);
+    };
+  }, [viewer]);
   const [mobileTab, setMobileTab] = useState<"wall" | "mine">("wall");
   const [myPhotos, setMyPhotos] = useState<GalleryPhoto[]>([]);
   const [deleting, setDeleting] = useState(false);
@@ -72,7 +85,7 @@ export function GalleryPage() {
 
   async function deleteSelected() {
     const ids = selectedIds.filter((id) => myPhotos.some((photo) => photo.id === id));
-    if (!ids.length || !window.confirm(`Apagar permanentemente ${ids.length} foto(s) do mural?`)) return;
+    if (!ids.length || !window.confirm(`Apagar permanentemente ${ids.length} foto(s) da galeria?`)) return;
     setDeleting(true);
     const deleted: string[] = [];
     const failed: string[] = [];
@@ -91,7 +104,7 @@ export function GalleryPage() {
       setSelectedIds(failed);
       if (!failed.length) setSelecting(false);
       if (failed.length) setError(`${deleted.length} foto(s) apagada(s). ${failed.length} não foram apagadas; tente novamente.`);
-      else setSuccess(`${deleted.length} foto(s) apagada(s) do mural.`);
+      else setSuccess(`${deleted.length} foto(s) apagada(s) da galeria.`);
     } catch {
       setError("Não foi possível apagar as fotos. Tente novamente.");
     } finally {
@@ -168,7 +181,7 @@ export function GalleryPage() {
       setSelectedFile(null);
       setCaption("");
       if (fileInput.current) fileInput.current.value = "";
-      setSuccess("Sua foto entrou no mural ✦");
+      setSuccess("Sua foto entrou na galeria ✦");
       setMobileTab("mine");
       setMinePage(1);
       await loadPhotos(true);
@@ -181,7 +194,7 @@ export function GalleryPage() {
   }
 
   async function deletePhoto(photo: GalleryPhoto) {
-    if (!window.confirm("Apagar esta foto permanentemente do mural?")) return;
+    if (!window.confirm("Apagar esta foto permanentemente da galeria?")) return;
     setDeleting(true);
     try {
       if (isAdmin) await api.delete(`/admin/gallery/${photo.id}`, { timeout: 20000 });
@@ -189,7 +202,7 @@ export function GalleryPage() {
       setViewer(null);
       setPhotos((items) => items.filter((item) => item.id !== photo.id));
       setMyPhotos((items) => items.filter((item) => item.id !== photo.id));
-      setSuccess("Foto apagada do mural.");
+      setSuccess("Foto apagada da galeria.");
     } catch {
       setError("Não foi possível apagar a foto. Tente novamente.");
     } finally {
@@ -210,7 +223,12 @@ export function GalleryPage() {
   }
 
   return (
-    <main className={`gallery-page gallery-tab-${mobileTab}`}>
+    <main className={`gallery-page gallery-tab-${mobileTab}${isAdmin ? "" : " gallery-visitor"}`}
+      onContextMenu={(event) => {
+        if (!isAdmin && !(event.target instanceof Element && event.target.closest("input, textarea"))) event.preventDefault();
+      }}
+      onDragStart={(event) => { if (!isAdmin) event.preventDefault(); }}>
+
       {(loading || pendingImages > 0 || sending || deleting) && <div className="gallery-busy-screen" aria-busy="true"><span className="gallery-loading-monogram" aria-hidden="true">AC</span><GalleryLoading label={sending ? "Publicando foto…" : deleting ? "Apagando fotos…" : "Carregando galeria…"} /></div>}
       {toast && <Toast key={toast.id} message={toast.message} kind={toast.kind} onClose={closeToast} />}
       {isAdmin && <div className="gallery-admin-access">
@@ -250,7 +268,7 @@ export function GalleryPage() {
 
       <section className="gallery-wall">
         <div className="gallery-wall-heading">
-          <div><span>{mobileTab === "mine" ? "Seus registros" : "Mural ao vivo · Ana Clara XV"}</span><h2>{mobileTab === "mine" ? "Minhas fotos" : "Galeria"}</h2><p className="gallery-editorial-copy">{mobileTab === "mine" ? "Suas fotos publicadas neste dispositivo." : "Os momentos da festa, pelos olhos de todos."}</p></div>
+          <div><span>{mobileTab === "mine" ? "Seus registros" : "Galeria ao vivo · Ana Clara XV"}</span><h2>{mobileTab === "mine" ? "Minhas fotos" : "Galeria"}</h2><p className="gallery-editorial-copy">{mobileTab === "mine" ? "Suas fotos publicadas neste dispositivo." : "Os momentos da festa, pelos olhos de todos."}</p></div>
           {mobileTab === "wall" && <p className="gallery-record-count"><strong>{visiblePhotos.length}</strong><span>{visiblePhotos.length === 1 ? "registro" : "registros"}</span></p>}
         </div>
 
@@ -338,7 +356,7 @@ export function GalleryPage() {
         <GalleryDownload count={photos.length} notify={(message, error) => error ? setError(message) : setSuccess(message)} />
       </details>}
 
-      {viewer && <div className="gallery-lightbox" role="dialog" aria-modal="true" onClick={() => setViewer(null)}>
+      {viewer && <div className="gallery-lightbox" role="dialog" aria-modal="true" aria-label="Detalhes da foto" onClick={() => setViewer(null)}>
         <button className="gallery-lightbox-close" onClick={() => setViewer(null)} aria-label="Fechar">×</button>
         <div onClick={(e) => e.stopPropagation()}>
           <GalleryImage onLoadingChange={trackImageLoading} src={photoUrl(viewer.id)} alt={viewer.caption || `Foto de ${viewer.authorName}`} eager />
