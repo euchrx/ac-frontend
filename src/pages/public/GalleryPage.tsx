@@ -4,6 +4,9 @@ import axios from "axios";
 import { api } from "../../services/api";
 import { Toast } from "../../components/Toast";
 import "./gallery-controls.css";
+import "./gallery-desktop.css";
+import "./gallery-simple.css";
+import { GalleryDownload } from './GalleryDownload';
 
 type GalleryPhoto = {
   id: string;
@@ -53,9 +56,10 @@ export function GalleryPage() {
     if (message) setToast({ id: ++toastId.current, message, kind: "success" });
   }, []);
   const [viewer, setViewer] = useState<GalleryPhoto | null>(null);
-  const [mobileTab, setMobileTab] = useState<"wall" | "upload" | "mine">("wall");
+  const [mobileTab, setMobileTab] = useState<"wall" | "mine">("wall");
   const [myPhotos, setMyPhotos] = useState<GalleryPhoto[]>([]);
   const [deleting, setDeleting] = useState(false);
+
   const [selecting, setSelecting] = useState(false);
   const [selectedIds, setSelectedIds] = useState<string[]>([]);
 
@@ -136,6 +140,7 @@ export function GalleryPage() {
 
   async function publish(event: React.FormEvent) {
     event.preventDefault();
+    if (sending) return;
     if (!selectedFile || !authorName.trim()) {
       setError("Escolha uma foto e informe seu nome.");
       return;
@@ -156,8 +161,8 @@ export function GalleryPage() {
       setCaption("");
       if (fileInput.current) fileInput.current.value = "";
       setSuccess("Sua foto entrou no mural ✦");
-      setMobileTab("wall");
-      setWallPage(1);
+      setMobileTab("mine");
+      setMinePage(1);
       await loadPhotos(true);
     } catch (err) {
       const message = axios.isAxiosError(err) ? err.response?.data?.message : null;
@@ -203,52 +208,61 @@ export function GalleryPage() {
         <button type="button" onClick={() => {
           localStorage.removeItem("admin_token");
           setIsAdmin(false);
+          
         }}>Sair</button>
       </div>}
       <header className="gallery-hero">
-        <a href="/" className="gallery-back" aria-label="Voltar ao convite">AC</a>
+        <span className="gallery-back" aria-hidden="true">AC</span>
         <div>
           <span className="gallery-kicker">15 anos da Ana Clara</span>
           <h1>Nossa noite,<br /><em>pelos seus olhos.</em></h1>
           <p>Registre um instante da festa e ajude a construir esta memória com a gente.</p>
         </div>
-        <button className="gallery-cta" onClick={() => fileInput.current?.click()}>
-          <span>＋</span> Adicionar foto
-        </button>
       </header>
-
-      <section className="gallery-upload" aria-label="Publicar foto">
-        <div className="gallery-app-compose-heading"><span>UM INSTANTE, PARA SEMPRE</span><h2>Compartilhe sua noite</h2><p>Escolha sua foto favorita e faça parte dessa memória.</p></div>
-        <form onSubmit={publish}>
-          <button
-            type="button"
-            className={`gallery-picker${preview ? " has-preview" : ""}`}
-            onClick={() => fileInput.current?.click()}
-          >
-            {preview ? <img src={preview} alt="Prévia da foto" /> : (
-              <span><strong>Toque para escolher</strong><small>JPG, PNG ou WebP · até 8 MB</small></span>
-            )}
-          </button>
-          <input
-            ref={fileInput}
-            className="gallery-file-input"
-            type="file"
-            accept="image/jpeg,image/png,image/webp"
-            onChange={(event) => setSelectedFile(event.target.files?.[0] ?? null)}
-          />
-          <div className="gallery-fields">
-            <label>Seu nome<input value={authorName} maxLength={60} onChange={(e) => setAuthorName(e.target.value)} placeholder="Como quer aparecer?" /></label>
-            <label>Legenda <span>opcional</span><input value={caption} maxLength={180} onChange={(e) => setCaption(e.target.value)} placeholder="Conte um pouco sobre esse momento" /></label>
-            <button type="submit" disabled={sending || !selectedFile || !authorName.trim()}>{sending ? "Publicando…" : "Publicar no mural"}</button>
-          </div>
-        </form>
-      </section>
+      <input ref={fileInput} className="gallery-file-input" type="file"
+        accept="image/jpeg,image/png,image/webp" capture="environment"
+        onChange={(event) => {
+          const file = event.target.files?.[0];
+          event.target.value = "";
+          if (!file) return;
+          if (!["image/jpeg", "image/png", "image/webp"].includes(file.type)) {
+            setError("Use uma foto JPG, PNG ou WebP."); return;
+          }
+          if (file.size > 8 * 1024 * 1024) {
+            setError("A foto deve ter até 8 MB. Tente uma resolução menor."); return;
+          }
+          setSelectedFile(file);
+          setMobileTab("mine");
+          setSelecting(false);
+          window.setTimeout(() => document.querySelector(".gallery-upload")?.scrollIntoView({ block: "start", behavior: "smooth" }), 0);
+        }} />
 
       <section className="gallery-wall">
         <div className="gallery-wall-heading">
-          <div><span>{mobileTab === "mine" ? "Seus registros" : "Mural ao vivo · Ana Clara XV"}</span><h2>{mobileTab === "mine" ? "Minhas fotos" : <>Uma noite.<br /><em>Mil memórias.</em></>}</h2>{mobileTab === "wall" && <p className="gallery-editorial-copy">Cada olhar, um pedaço da nossa história.</p>}</div>
-          <p className="gallery-record-count"><strong>{visiblePhotos.length}</strong><span>{visiblePhotos.length === 1 ? "registro" : "registros"}</span></p>
+          <div><span>{mobileTab === "mine" ? "Seus registros" : "Mural ao vivo · Ana Clara XV"}</span><h2>{mobileTab === "mine" ? "Minhas fotos" : "Galeria"}</h2><p className="gallery-editorial-copy">{mobileTab === "mine" ? "Suas fotos publicadas neste dispositivo." : "Os momentos da festa, pelos olhos de todos."}</p></div>
+          {mobileTab === "wall" && <p className="gallery-record-count"><strong>{visiblePhotos.length}</strong><span>{visiblePhotos.length === 1 ? "registro" : "registros"}</span></p>}
         </div>
+
+        {mobileTab === "mine" && <div className="gallery-add-action">
+          <button className="gallery-cta" disabled={sending} onClick={() => fileInput.current?.click()}>
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5l2-2h4l2 2h4a1 1 0 011 1v14H3V6a1 1 0 011-1z" /><circle cx="12" cy="12" r="4" /></svg>
+            {selectedFile ? "Tirar outra foto" : "Adicionar fotos"}
+          </button>
+          <p>Tire uma foto e depois adicione seu nome.</p>
+        </div>}
+        {mobileTab === "mine" && selectedFile && <section className="gallery-upload" aria-label="Publicar foto">
+          <h3>Sua foto está pronta</h3>
+          <p>Confira a foto e complete os detalhes para publicar.</p>
+          <form onSubmit={publish} aria-busy={sending}>
+            <img className="gallery-capture-preview" src={preview} alt="Prévia da foto que será publicada" />
+            <div className="gallery-fields">
+              <label>Seu nome<input required autoComplete="name" disabled={sending} value={authorName} maxLength={60} onChange={(e) => setAuthorName(e.target.value)} placeholder="Como você se chama?" /></label>
+              <label>Legenda <span>opcional</span><input disabled={sending} value={caption} maxLength={180} onChange={(e) => setCaption(e.target.value)} placeholder="Escreva sobre esse momento" /></label>
+              <button type="submit" disabled={sending || !authorName.trim()}>{sending ? "Publicando…" : "Publicar foto"}</button>
+              <button className="gallery-cancel" type="button" disabled={sending} onClick={() => { setSelectedFile(null); setCaption(""); }}>Descartar foto</button>
+            </div>
+          </form>
+        </section>}
 
         {mobileTab === "mine" && myPhotos.length > 0 && <div className="gallery-selection-toolbar">
           <button disabled={deleting} onClick={() => { setSelecting(!selecting); setSelectedIds([]); }}>{selecting ? "Cancelar seleção" : "Selecionar fotos"}</button>
@@ -262,8 +276,8 @@ export function GalleryPage() {
           </>}
         </div>}
 
-        {loading ? <div className="gallery-status">Revelando momentos…</div> : visiblePhotos.length === 0 ? (
-          <div className="gallery-empty"><span>✦</span><h3>{mobileTab === "mine" ? "Você ainda não publicou fotos aqui." : "O primeiro registro pode ser seu."}</h3><p>As fotos publicadas durante a festa aparecerão aqui.</p></div>
+        {loading ? <div className="gallery-status">Carregando fotos…</div> : visiblePhotos.length === 0 ? (
+          <div className="gallery-empty"><p className="gallery-mobile-empty">Nenhuma foto publicada.</p><span>✦</span><h3>{mobileTab === "mine" ? "Você ainda não publicou fotos aqui." : "O primeiro registro pode ser seu."}</h3><p>{mobileTab === "mine" ? "Toque em Adicionar fotos para registrar seu primeiro momento." : "As fotos publicadas durante a festa aparecerão aqui."}</p></div>
         ) : (
           <div className="gallery-grid">
             {pagePhotos.map((photo, index) => (
@@ -281,21 +295,24 @@ export function GalleryPage() {
         )}
       </section>
 
-      {mobileTab !== "upload" && totalPages > 1 && <nav className="gallery-pagination" aria-label="Páginas de fotos">
+      {totalPages > 1 && <nav className="gallery-pagination" aria-label="Páginas de fotos">
         <button disabled={currentPage <= 1} onClick={() => changePage(currentPage - 1)}>← Anterior</button>
         <span aria-live="polite">Página {currentPage} de {totalPages}</span>
         <button disabled={currentPage >= totalPages} onClick={() => changePage(currentPage + 1)}>Próxima →</button>
       </nav>}
 
       <nav className="gallery-app-nav" aria-label="Navegação da galeria">
-        <button aria-current={mobileTab === "wall" ? "page" : undefined} onClick={() => { setMobileTab("wall"); window.scrollTo({ top: 0 }); }}>
-          <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="2" /><rect x="14" y="3" width="7" height="7" rx="2" /><rect x="3" y="14" width="7" height="7" rx="2" /><rect x="14" y="14" width="7" height="7" rx="2" /></svg><span>Mural</span>
+        <button aria-current={mobileTab === "wall" ? "page" : undefined} onClick={() => {  setMobileTab("wall"); window.scrollTo({ top: 0 }); }}>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="2" /><rect x="14" y="3" width="7" height="7" rx="2" /><rect x="3" y="14" width="7" height="7" rx="2" /><rect x="14" y="14" width="7" height="7" rx="2" /></svg><span>Galeria</span>
         </button>
-        <button aria-current={mobileTab === "upload" ? "page" : undefined} onClick={() => { setMobileTab("upload"); window.scrollTo({ top: 0 }); }}>
-          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5l2-2h4l2 2h4a1 1 0 011 1v14H3V6a1 1 0 011-1z" /><circle cx="12" cy="12" r="4" /></svg><span>Publicar foto</span>
-        </button>
-        <button aria-current={mobileTab === "mine" ? "page" : undefined} onClick={() => { setMobileTab("mine"); window.scrollTo({ top: 0 }); }}><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4" /><path d="M4 21v-2a8 8 0 0116 0v2" /></svg><span>Minhas fotos</span></button>
+        <button aria-current={mobileTab === "mine" ? "page" : undefined} onClick={() => {  setMobileTab("mine"); window.scrollTo({ top: 0 }); }}><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4" /><path d="M4 21v-2a8 8 0 0116 0v2" /></svg><span>Minhas fotos</span></button>
+
       </nav>
+
+      {isAdmin && mobileTab === "wall" && <details className="gallery-admin-download">
+        <summary>Baixar álbum · Administração</summary>
+        <GalleryDownload count={photos.length} notify={(message, error) => error ? setError(message) : setSuccess(message)} />
+      </details>}
 
       {viewer && <div className="gallery-lightbox" role="dialog" aria-modal="true" onClick={() => setViewer(null)}>
         <button className="gallery-lightbox-close" onClick={() => setViewer(null)} aria-label="Fechar">×</button>

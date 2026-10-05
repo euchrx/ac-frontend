@@ -1,0 +1,107 @@
+.gallery-desktop-aside { display:none; }
+.gallery-download-panel,.gallery-page .gallery-app-nav .gallery-download-nav { display:none; }
+
+@media (min-width:761px) {
+  .gallery-page .gallery-app-nav .gallery-download-nav { display:flex; }
+  .gallery-page.gallery-show-download .gallery-wall,
+  .gallery-page.gallery-show-download .gallery-upload,
+  .gallery-page.gallery-show-download .gallery-pagination { display:none; }
+  .gallery-page.gallery-show-download .gallery-download-panel { display:block; }
+  .gallery-download-panel { max-width:700px; margin:0 auto 24px; padding:36px; border:1px solid rgba(199,219,242,.16); border-radius:28px; background:radial-gradient(ellipse at top right,rgba(137,175,219,.15),transparent 65%),#091a2d; }
+  .gallery-download-kicker { font-size:9px; letter-spacing:.2em; color:#96b0ca; }
+  .gallery-download-panel h2 { font-family:"Cormorant Garamond",serif; font-size:60px; font-weight:500; line-height:.95; margin-top:24px; }
+  .gallery-download-panel h2 em { color:#bcd1e8; font-weight:500; }
+  .gallery-download-panel > p { color:#9db1c8; font-size:13px; line-height:1.8; margin-top:20px; }
+  .gallery-download-card { display:flex; align-items:center; gap:18px; padding:22px; margin-top:28px; border:1px solid rgba(199,219,242,.12); border-radius:18px; background:rgba(166,197,230,.055); }
+  .gallery-download-card svg { flex-shrink:0; width:30px; height:30px; fill:none; stroke:#c5d9ef; stroke-width:1.5; stroke-linecap:round; stroke-linejoin:round; }
+  .gallery-download-card div { display:grid; gap:8px; }
+  .gallery-download-card strong { font-size:15px; font-weight:500; }
+  .gallery-download-card span { font-size:11px; color:#92abc6; }
+  .gallery-download-panel ul { padding-left:18px; margin:24px 0; color:#b5c6d9; font-size:12px; line-height:2.2; }
+  .gallery-download-panel > button { width:100%; min-height:54px; padding:14px 20px; color:#09213b; background:linear-gradient(135deg,#f2f7ff,#b2c9e3); border-radius:18px; font-weight:600; }
+  .gallery-download-panel .gallery-download-note { font-size:11px; color:#8aa2bd; }
+}
+
+/* Exclusivo do desktop: o layout móvel permanece definido nos outros estilos. */
+@media (min-width:761px) {
+  .gallery-page {
+    --social-left:230px;
+    padding:36px 42px 60px calc(var(--social-left) + 42px);
+    min-height:100vh;
+    background:#040f1e;
+  }
+  .gallery-page .gallery-hero {
+    position:fixed; inset:0 auto 0 0; width:var(--social-left);
+    min-height:0; padding:42px 26px; display:block;
+    border-right:1px solid rgba(190,213,240,.1);
+    background:linear-gradient(175deg,#0a1b30,#030d1a);
+  }
+  .gallery-page .gallery-hero::before,.gallery-page .gallery-hero::after { display:none; }
+  .gallery-page .gallery-back { position:static; width:46px; height:46px; margin-bottom:22px; background:linear-gradient(140deg,#edf5fe,#a7bdd4); color:#092039; border:0; border-radius:15px; }
+  .gallery-page .gallery-hero .gallery-kicker { font-size:8px; letter-spacing:.15em; margin-bottom:14px; }
+  .gallery-page .gallery-hero h1 { font-size:32px; line-height:1; letter-spacing:-.03em; }
+  .gallery-page .gallery-hero h1 em { display:block; font-size:27px; margin-top:5px; }
+  .gallery-page .gallery-hero p,.gallery-page .gallery-hero .gallery-cta { display:none; }
+  .gallery-page .gallery-app-nav {
+    display:flex; flex-direction:column; position:fixed; z-index:20;
+    left:18px; top:278px; width:calc(var(--social-left) - 36px); gap:10px;
+  }
+  .gallery-page .gallery-app-nav button {
+    display:flex; align-items:center; gap:13px; min-height:52px;
+    padding:13px 16px; text-align:left; border:1px solid transparent;
+    border-radius:16px; color:#98acc3; background:transparent; font-size:13px;
+    transition:background .2s,color .2s;
+  }
+  .gallery-page .gallery-app-nav button:hover { background:rgba(190,210,235,.06); color:#eaf3ff; }
+  .gallery-page .gallery-app-nav button[aria-current="page"] { background:linear-gradient(125deg,rgba(184,211,241,.16),rgba(132,173,220,.04)); border-color:rgba(184,211,241,.16); color:#eff6ff; }
+  .gallery-page .gallery-app-nav svg { width:22px; height:22px; fill:none; stroke:currentColor; stroke-width:1.6; stroke-linecap:round; stroke-linejoin:round; }
+  .gallery-page .gallery-desktop-aside {
+    display:flex; flex-direction:column; align-items:flex-start;
+    position:fixed; top:36px; right:24px; width:var(--social-right);
+    padding:28px 24px; border:1px solid rgba(190,213,240,.12); border-radius:24px;
+    background:radial-gradient(ellipse at top right,rgba(126,167,215,.15),transparent 70%),#09192b;
+  }
+  .gallery-desktop-monogram { display:grid; place-items:center; width:62px; height:62px; margin-bottom:30px; border:1px solid rgba(203,221,242,.35); border-radius:50%; font-family:"Cormorant Garamond",serif; font-size:24px; color:#d2e3f5; }
+  .gallery-desktop-eyebrow { color:#8fa7c1; font-size:8px; letter-spacing:.15em; text-transform:uppercase; }
+  .gallery-desktop-aside h2 { margin-top:12px; font-family:"Cormorant Garamond",serif; font-size:35px; font-weight:500; }
+  .gallery-desktop-aside h2 em { color:#90abc7; font-size:22px; }
+  .gallery-desktop-aside p { margin-top:14px; font-size:12px; line-height:1.8; color:#9aafc5; }
+  .gallery-desktop-stats { display:grid; grid-template-columns:1fr 1fr; width:100%; margin:24px 0; padding:20px 0; border-block:1px solid rgba(190,213,240,.12); }
+  .gallery-desktop-stats div { display:grid; gap:5px; }
+  .gallery-desktop-stats strong { font-size:24px; font-weight:500; font-variant-numeric:tabular-nums; }
+  .gallery-desktop-stats span { font-size:10px; color:#8fa7c1; }
+  .gallery-desktop-aside button { width:100%; padding:14px 10px; min-height:48px; background:linear-gradient(135deg,#f0f6fe,#b1c7df); border-radius:14px; color:#0a213b; font-size:11px; font-weight:600; }
+  .gallery-desktop-aside small { margin-top:24px; font-family:"Cormorant Garamond",serif; font-size:20px; line-height:1.35; color:#8ba4c0; }
+  .gallery-page .gallery-wall { width:100%; max-width:700px; margin:0 auto; padding:0; }
+  .gallery-page .gallery-wall-heading { padding:0 0 26px; margin-bottom:24px; }
+  .gallery-page.gallery-tab-wall .gallery-wall-heading h2 { font-size:52px; }
+  .gallery-page .gallery-wall-heading::after { top:24px; right:0; font-size:20px; }
+  .gallery-page .gallery-wall-heading > div > span { font-size:9px; }
+  .gallery-page .gallery-wall-heading h2 { font-size:44px; }
+  .gallery-page .gallery-grid { display:grid; grid-template-columns:minmax(0,1fr); columns:auto; gap:24px; }
+  .gallery-page .gallery-photo { display:flex; flex-direction:column; width:100%; margin:0; border-radius:22px; border:1px solid rgba(190,213,240,.14); background:#0b1b2e; }
+  .gallery-page .gallery-photo img { width:100%; height:auto; min-height:0; max-height:650px; aspect-ratio:auto; object-fit:contain; background:#020a14; }
+  .gallery-page .gallery-photo-info,.gallery-page .gallery-photo-featured .gallery-photo-info { position:static; opacity:1; display:flex; flex-wrap:wrap; align-items:center; gap:8px 14px; width:100%; padding:20px 22px; background:transparent; }
+  .gallery-page .gallery-photo-info strong,.gallery-page .gallery-photo-featured .gallery-photo-info strong { font-family:"Inter",sans-serif; font-size:13px; font-weight:600; color:#deebfa; }
+  .gallery-page .gallery-photo-info time { margin:0 0 0 auto; font-size:9px; color:#849bb5; }
+  .gallery-page .gallery-photo-info small { order:3; width:100%; display:block; color:#a6bad0; font-size:12px; line-height:1.7; }
+  .gallery-page .gallery-photo:hover img { transform:none; }
+  .gallery-page .gallery-tab-mine { display:block; }
+  .gallery-page.gallery-tab-mine .gallery-grid { grid-template-columns:repeat(2,minmax(0,1fr)); gap:16px; }
+  .gallery-page.gallery-tab-mine .gallery-photo img { aspect-ratio:1; object-fit:cover; }
+  .gallery-page.gallery-tab-mine .gallery-photo-info { padding:14px; }
+  .gallery-page .gallery-upload { width:100%; max-width:700px; margin:0 auto; padding:30px; }
+  .gallery-page .gallery-upload form { grid-template-columns:minmax(0,1fr); }
+  .gallery-page .gallery-picker { height:300px; }
+  .gallery-page .gallery-picker img { height:100%; object-fit:contain; }
+  .gallery-page .gallery-app-compose-heading { display:block; margin-bottom:24px; }
+  .gallery-page .gallery-app-compose-heading h2 { font-family:"Cormorant Garamond",serif; font-size:38px; font-weight:500; margin-top:10px; }
+  .gallery-page .gallery-app-compose-heading p { margin-top:10px; color:#94aac2; font-size:12px; line-height:1.6; }
+  .gallery-page.gallery-tab-wall .gallery-upload,.gallery-page.gallery-tab-mine .gallery-upload,.gallery-page.gallery-tab-upload .gallery-wall { display:none; }
+  .gallery-page .gallery-admin-access { max-width:700px; margin:0 auto 24px; border:1px solid rgba(190,213,240,.15); border-radius:14px; }
+  .gallery-page .gallery-pagination { max-width:700px; margin:24px auto 0; }
+}
+@media (min-width:761px) and (max-width:1150px) {
+  .gallery-page { --social-left:200px; padding:30px 28px 60px 228px; }
+  .gallery-page .gallery-desktop-aside { display:none; }
+}

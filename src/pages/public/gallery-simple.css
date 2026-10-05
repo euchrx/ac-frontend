@@ -1,0 +1,66 @@
+/* Two views with photo capture composed inline in My photos. */
+.gallery-page .gallery-wall-heading h2 { font-size:clamp(36px,6vw,48px); line-height:1.1; margin:8px 0 0; letter-spacing:-.025em; }
+.gallery-page .gallery-wall-heading::after { display:none; }
+.gallery-page .gallery-editorial-copy { margin-top:12px; color:#b7c8da; font-size:14px; line-height:1.6; }
+.gallery-page .gallery-wall-heading { gap:16px; padding:12px 0 24px; }
+.gallery-page .gallery-add-action { margin:0 0 24px; }
+.gallery-page .gallery-add-action .gallery-cta { position:static; display:flex; align-items:center; justify-content:center; gap:10px; width:100%; padding:14px 20px; }
+.gallery-add-action svg { width:22px; height:22px; fill:none; stroke:currentColor; stroke-width:1.7; stroke-linejoin:round; }
+.gallery-add-action p { margin-top:10px; color:#b7c8da; font-size:13px; text-align:center; }
+.gallery-page.gallery-tab-mine .gallery-upload { display:block; width:100%; margin:0 0 28px; padding:20px; border:1px solid #30445b; border-radius:20px; background:#0b1c30; scroll-margin-top:20px; }
+.gallery-page .gallery-upload h3 { font-size:20px; }
+.gallery-page .gallery-upload > p { margin:8px 0 20px; color:#b7c8da; font-size:14px; line-height:1.5; }
+.gallery-page .gallery-upload form { display:grid; grid-template-columns:1fr; gap:20px; }
+.gallery-capture-preview { display:block; width:100%; max-height:360px; object-fit:contain; border-radius:12px; background:#030e1c; }
+.gallery-page .gallery-fields { grid-template-columns:1fr; gap:16px; }
+.gallery-page .gallery-fields input { font-size:16px; min-height:52px; }
+.gallery-page .gallery-fields .gallery-cancel { background:transparent; color:#c5d7ea; border:1px solid #435970; box-shadow:none; }
+.gallery-page .gallery-photo-info strong { font-size:14px; }
+.gallery-page .gallery-photo-info time { font-size:11px; }
+.gallery-admin-download { max-width:700px; margin:24px auto; }
+.gallery-admin-download summary { cursor:pointer; padding:16px; color:#b7c8da; }
+.gallery-page .gallery-admin-download .gallery-download-panel { display:block; }
+
+.gallery-mobile-empty { display:none; }
+.gallery-page.gallery-tab-wall .gallery-wall-heading h2 { font-size:clamp(36px,6vw,48px); line-height:1.1; margin-top:8px; }
+@media(max-width:760px) {
+  .gallery-page { padding-bottom:calc(76px + env(safe-area-inset-bottom)); }
+  .gallery-page .gallery-wall,
+  .gallery-page.gallery-tab-wall .gallery-wall { width:calc(100% - 20px); margin:0 auto; padding:16px 0 0; }
+  .gallery-page .gallery-wall-heading,
+  .gallery-page.gallery-tab-wall .gallery-wall-heading { flex-direction:row; align-items:center; gap:12px; margin:0 2px 14px; padding:0; border:0; }
+  .gallery-page .gallery-wall-heading h2,
+  .gallery-page.gallery-tab-wall .gallery-wall-heading h2 { margin:0; font-size:30px; line-height:1.15; }
+  .gallery-page .gallery-wall-heading > div > span,
+  .gallery-page .gallery-editorial-copy,
+  .gallery-page .gallery-add-action > p { display:none; }
+  .gallery-page .gallery-wall-heading > .gallery-record-count { align-self:center; margin-left:auto; padding:0; border:0; background:none; gap:5px; }
+  .gallery-page .gallery-add-action { display:flex; justify-content:flex-end; margin:-4px 2px 12px; }
+  .gallery-page .gallery-add-action .gallery-cta { width:auto; min-height:44px; padding:8px 12px; gap:7px; border:1px solid rgba(190,213,240,.2); border-radius:12px; background:rgba(146,180,218,.12); box-shadow:none; color:#d7eaff; font-size:13px; }
+  .gallery-page .gallery-add-action svg { width:18px; height:18px; }
+  .gallery-page .gallery-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:6px; align-items:start; }
+  .gallery-page .gallery-photo,
+  .gallery-page .gallery-photo-featured { grid-column:auto; margin:0; border:0; border-radius:8px; box-shadow:none; overflow:hidden; }
+  .gallery-page .gallery-photo img,
+  .gallery-page .gallery-photo-featured img { display:block; width:100%; aspect-ratio:4/5; object-fit:cover; max-height:none; }
+  .gallery-page .gallery-photo-info,
+  .gallery-page .gallery-photo-featured .gallery-photo-info,
+  .gallery-page .gallery-featured-label { display:none; }
+  .gallery-page .gallery-selection-toolbar { gap:6px; margin:0 2px 12px; }
+  .gallery-page .gallery-selection-toolbar button { padding:6px 10px; border-radius:10px; background:transparent; font-size:12px; }
+  .gallery-page .gallery-app-nav { inset:auto 0 0; grid-template-columns:repeat(2,minmax(0,1fr)); gap:0; padding:4px 12px calc(4px + env(safe-area-inset-bottom)); border-radius:0; border-width:1px 0 0; box-shadow:none; }
+  .gallery-page .gallery-app-nav button { min-height:48px; border-radius:12px; gap:3px; font-size:11px; }
+  .gallery-page .gallery-app-nav svg { width:20px; height:20px; }
+  .gallery-page.gallery-tab-mine .gallery-upload { padding:12px; margin-bottom:16px; border-radius:12px; }
+  .gallery-page .gallery-upload > h3,
+  .gallery-page .gallery-upload > p { display:none; }
+  .gallery-page .gallery-upload form { gap:14px; }
+  .gallery-page .gallery-fields { grid-template-columns:1fr 1fr; gap:12px; }
+  .gallery-page .gallery-fields label { grid-column:1/-1; }
+  .gallery-page .gallery-fields button { grid-column:auto; min-height:44px; padding:8px; border-radius:12px; font-size:13px; }
+  .gallery-page .gallery-empty { padding:44px 12px; }
+  .gallery-page .gallery-empty > span,
+  .gallery-page .gallery-empty > h3,
+  .gallery-page .gallery-empty > p { display:none; }
+  .gallery-page .gallery-empty .gallery-mobile-empty { display:block; margin:0; font-family:inherit; font-size:14px; color:#b7c8da; }
+}
